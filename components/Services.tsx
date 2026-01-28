@@ -43,7 +43,7 @@ const materials = [
   },
   {
     title: 'Timber and Composite',
-    image: '/images/services/timber.png',
+    image: '/images/services/timber-and-composite.png',
     description: 'Sustainable timber and composite material solutions for eco-friendly construction. Combining natural beauty with modern engineering.',
     overlayColor: 'bg-orange-900/30' // Warm brown/orange overlay
   },

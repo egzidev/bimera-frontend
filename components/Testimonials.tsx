@@ -6,10 +6,10 @@ import { useInView } from 'framer-motion'
 import { useRef, useState, useEffect } from 'react'
 
 const testimonial = {
-  quote: 'This project is an industrial building for which we designed the floor system',
-  author: 'Filan Fisteku',
-  role: 'CEO at Prodesign AB',
-  image: 'https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=2&w=256&h=256&q=80', // You can add a profile image here
+  quote: 'Bimera has extensive experience in modeling prefab frames and producing production documents for concrete and steel elements.',
+  author: 'Joakim Lindskog',
+  role: 'CEO, Prodesign AB',
+  image: '/images/testimonials/joakim-lindskog.jpg',
 }
 
 export default function Testimonials() {
@@ -20,32 +20,25 @@ export default function Testimonials() {
   const isInView = useInView(sectionRef, { once: true, amount: 0.2 })
   const [mousePosition, setMousePosition] = useState({ x: 0, y: 0 })
   const [hasHover, setHasHover] = useState(true)
-  const [isMobile, setIsMobile] = useState(false)
 
   useEffect(() => {
     setHasHover(window.matchMedia('(hover: hover)').matches)
   }, [])
-  useEffect(() => {
-    const check = () => setIsMobile(window.innerWidth < 1024)
-    check()
-    window.addEventListener('resize', check)
-    return () => window.removeEventListener('resize', check)
-  }, [])
 
-  // Parallax scroll for question — stronger on mobile so text and card move with scroll
+  // Parallax scroll for question
   const { scrollYProgress: questionScroll } = useScroll({
     target: questionRef,
     offset: ["start end", "end start"]
   })
-  const questionY = useTransform(questionScroll, [0, 0.5, 1], isMobile ? [70, 0, -70] : [30, 0, -30])
+  const questionY = useTransform(questionScroll, [0, 1], [30, -30])
   const questionOpacity = useTransform(questionScroll, [0, 0.25, 0.75, 1], [0, 1, 1, 0])
 
-  // Parallax scroll for card — stronger on mobile
+  // Parallax scroll for card — gentler on mobile
   const { scrollYProgress: cardScroll } = useScroll({
     target: cardRef,
     offset: ["start end", "end start"]
   })
-  const cardY = useTransform(cardScroll, [0, 0.5, 1], isMobile ? [-70, 0, 70] : [-30, 0, 30])
+  const cardY = useTransform(cardScroll, [0, 1], [-30, 30])
   const cardOpacity = useTransform(cardScroll, [0, 0.25, 0.75, 1], [0, 1, 1, 0])
   const cardScale = useTransform(cardScroll, [0, 0.25, 0.75, 1], [0.97, 1, 1, 0.97])
 

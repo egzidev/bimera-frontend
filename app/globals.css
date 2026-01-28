@@ -9,6 +9,8 @@
 body {
   color: rgb(17, 24, 39);
   background: rgb(255, 255, 255);
+  font-family: var(--font-inter);
+  font-weight: 300;
 }
 
 @keyframes shimmer {
