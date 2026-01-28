@@ -81,42 +81,96 @@ export default function LatestWork() {
     if (!sectionRef.current || !galleryStripRef.current) return
 
     const pinWrap = galleryStripRef.current
+    const wrapper = sectionRef.current.querySelector('.horiz-gallery-wrapper') as HTMLElement
+    if (!wrapper) return
+
     let pinWrapWidth: number
     let horizontalScrollLength: number
+    let scrollTriggerInstance: gsap.core.Tween | null = null
+    let isInitialized = false
 
     function refresh() {
       pinWrapWidth = pinWrap.scrollWidth
       horizontalScrollLength = pinWrapWidth - window.innerWidth
+      
+      // Update ScrollTrigger end value if it exists
+      if (scrollTriggerInstance?.scrollTrigger) {
+        scrollTriggerInstance.scrollTrigger.vars.end = `+=${pinWrapWidth}`
+      }
     }
 
-    refresh()
+    function initScrollTrigger() {
+      if (isInitialized) return
+      isInitialized = true
 
-    // Get header height (estimate or measure)
-    const headerHeight = 80 // Adjust this to match your actual header height
-
-    // Pinning and horizontal scrolling
-    const scrollTrigger = gsap.to(pinWrap, {
-      scrollTrigger: {
-        scrub: true,
-        trigger: sectionRef.current,
-        pin: sectionRef.current,
-        pinSpacing: true,
-        start: `top top+=${headerHeight}`,
-        end: () => `+=${pinWrapWidth}`,
-        invalidateOnRefresh: true,
-        onUpdate: (self) => {
-          // Calculate active card based on scroll progress
-          const progress = self.progress
-          const cardIndex = Math.floor(progress * (projects.length - 1))
-          const clampedIndex = Math.max(0, Math.min(cardIndex, projects.length - 1))
-          setActiveCardIndex(clampedIndex)
-          setExpandedIndex(clampedIndex)
+      // Pinning and horizontal scrolling
+      scrollTriggerInstance = gsap.to(pinWrap, {
+        scrollTrigger: {
+          scrub: true,
+          trigger: wrapper,
+          pin: wrapper,
+          pinSpacing: true,
+          start: 'center center',
+          end: () => `+=${pinWrapWidth}`,
+          invalidateOnRefresh: true,
+          onUpdate: (self) => {
+            // Calculate active card based on scroll progress
+            const progress = self.progress
+            const cardIndex = Math.floor(progress * (projects.length - 1))
+            const clampedIndex = Math.max(0, Math.min(cardIndex, projects.length - 1))
+            setActiveCardIndex(clampedIndex)
+            setExpandedIndex(clampedIndex)
+          },
         },
-      },
-      x: () => -horizontalScrollLength,
-      ease: 'none',
-    })
+        x: () => -horizontalScrollLength,
+        ease: 'none',
+      })
+    }
 
+    // Wait a bit to ensure any parent animations (like main element) are complete
+    const initDelay = setTimeout(() => {
+      // Wait for images to load before calculating width
+      const images = pinWrap.querySelectorAll('img')
+      let imagesLoaded = 0
+      const totalImages = images.length
+
+      const checkImagesLoaded = () => {
+        imagesLoaded++
+        if (imagesLoaded >= totalImages || totalImages === 0) {
+          refresh()
+          // Small delay to ensure DOM is fully updated
+          requestAnimationFrame(() => {
+            initScrollTrigger()
+            ScrollTrigger.refresh()
+          })
+        }
+      }
+
+      if (totalImages > 0) {
+        images.forEach((img) => {
+          if (img.complete) {
+            checkImagesLoaded()
+          } else {
+            img.addEventListener('load', checkImagesLoaded, { once: true })
+            img.addEventListener('error', checkImagesLoaded, { once: true })
+          }
+        })
+      } else {
+        refresh()
+        requestAnimationFrame(() => {
+          initScrollTrigger()
+          ScrollTrigger.refresh()
+        })
+      }
+    }, 100)
+
+    // Handle window resize
+    const handleResize = () => {
+      refresh()
+      ScrollTrigger.refresh()
+    }
+
+    window.addEventListener('resize', handleResize)
     ScrollTrigger.addEventListener('refreshInit', refresh)
 
     // Set first card as active by default
@@ -124,14 +178,18 @@ export default function LatestWork() {
     setExpandedIndex(0)
 
     return () => {
+      clearTimeout(initDelay)
+      window.removeEventListener('resize', handleResize)
       ScrollTrigger.removeEventListener('refreshInit', refresh)
-      if (scrollTrigger.scrollTrigger) {
-        scrollTrigger.scrollTrigger.kill()
+      if (scrollTriggerInstance?.scrollTrigger) {
+        scrollTriggerInstance.scrollTrigger.kill()
       }
-      scrollTrigger.kill()
+      if (scrollTriggerInstance) {
+        scrollTriggerInstance.kill()
+      }
       ScrollTrigger.refresh()
     }
-  }, [isMobile])
+  }, [isMobile, projects.length])
 
   const containerVariants = {
     hidden: { opacity: 0 },

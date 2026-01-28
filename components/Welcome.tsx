@@ -98,21 +98,21 @@ export default function Welcome({ onComplete }: { onComplete: () => void }) {
         <div className="absolute bottom-[5%] right-[15%] h-[420px] w-[420px] rounded-full bg-orange-200/20 blur-3xl" />
       </div>
 
+      {/* super noise overlay - covers entire screen */}
+      <div
+        aria-hidden
+        className="welcome-noise absolute inset-0 pointer-events-none mix-blend-overlay opacity-0"
+        style={{
+          backgroundImage:
+            'url("data:image/svg+xml,%3Csvg xmlns=%27http://www.w3.org/2000/svg%27 width=%27320%27 height=%27320%27%3E%3Cfilter id=%27n%27%3E%3CfeTurbulence type=%27fractalNoise%27 baseFrequency=%270.9%27 numOctaves=%274%27 stitchTiles=%27stitch%27/%3E%3C/filter%3E%3Crect width=%27100%25%27 height=%27100%25%27 filter=%27url(%23n)%27 opacity=%270.55%27/%3E%3C/svg%3E")',
+          backgroundRepeat: 'repeat',
+          backgroundSize: '220px 220px',
+        }}
+      />
+
       <div className="relative w-full max-w-2xl px-8">
         <div className="flex items-center justify-center">
           <div className="relative">
-            {/* super noise overlay */}
-            <div
-              aria-hidden
-              className="welcome-noise absolute -inset-24 pointer-events-none mix-blend-overlay opacity-0"
-              style={{
-                backgroundImage:
-                  'url("data:image/svg+xml,%3Csvg xmlns=%27http://www.w3.org/2000/svg%27 width=%27320%27 height=%27320%27%3E%3Cfilter id=%27n%27%3E%3CfeTurbulence type=%27fractalNoise%27 baseFrequency=%270.9%27 numOctaves=%274%27 stitchTiles=%27stitch%27/%3E%3C/filter%3E%3Crect width=%27100%25%27 height=%27100%25%27 filter=%27url(%23n)%27 opacity=%270.55%27/%3E%3C/svg%3E")',
-                backgroundRepeat: 'repeat',
-                backgroundSize: '220px 220px',
-                borderRadius: '9999px',
-              }}
-            />
 
             {/* halo ring */}
             <div
@@ -135,7 +135,7 @@ export default function Welcome({ onComplete }: { onComplete: () => void }) {
                 width={900}
                 height={320}
                 priority
-                className="w-[520px] sm:w-[720px] md:w-[860px] h-auto opacity-30"
+                className="w-[380px] sm:w-[580px] md:w-[720px] h-auto opacity-30"
               />
             </div>
 
@@ -147,7 +147,7 @@ export default function Welcome({ onComplete }: { onComplete: () => void }) {
                 width={520}
                 height={180}
                 priority
-                className="w-[360px] sm:w-[460px] h-auto opacity-70"
+                className="w-[240px] sm:w-[360px] md:w-[460px] h-auto opacity-70"
               />
             </div>
 
@@ -162,7 +162,7 @@ export default function Welcome({ onComplete }: { onComplete: () => void }) {
                 width={520}
                 height={180}
                 priority
-                className="w-[360px] sm:w-[460px] h-auto drop-shadow-[0_26px_80px_rgba(0,0,0,0.14)]"
+                className="w-[240px] sm:w-[360px] md:w-[460px] h-auto drop-shadow-[0_26px_80px_rgba(0,0,0,0.14)]"
               />
             </div>
           </div>
