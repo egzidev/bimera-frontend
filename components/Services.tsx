@@ -448,7 +448,7 @@ export default function Services() {
           <div className="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
             <div className="flex items-end justify-between mb-14">
           <h2
-            className={`text-5xl md:text-6xl font-medium text-gray-900 transition-all duration-800 ${isVisible
+            className={`text-4xl md:text-5xl font-medium text-gray-900 transition-all duration-800 ${isVisible
               ? 'opacity-100 translate-y-0'
               : 'opacity-0 translate-y-10'
               }`}

@@ -183,7 +183,7 @@ export default function LatestWork() {
       <section
         ref={sectionRef}
         id="work"
-        className="relative bg-white overflow-hidden"
+        className="relative overflow-hidden"
       >
         <div className="w-full" style={{ paddingBottom: '40px' }}>
           {/* Mobile: Our latest work title */}
@@ -312,7 +312,7 @@ export default function LatestWork() {
 
   // Desktop layout (unchanged)
   return (
-    <section ref={ref} id="work" className="py-20 bg-white relative">
+    <section ref={ref} id="work" className="py-20 relative">
       {/* Sentinel for useScroll target — ensures ref is always attached (avoids hydration error) */}
       <div
         ref={latestWorkTitleRef}

@@ -65,26 +65,11 @@ export default function Hero() {
       onAnimationComplete={() => setHeroRevealed(true)}
     >
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        {/* Tagline */}
-        <motion.div
-          className="mb-8 mt-10"
-          initial="hidden"
-          animate={heroRevealed ? "visible" : "hidden"}
-          variants={itemVariants}
-          transition={{ duration: 0.6, ease: "easeOut" }}
-        >
-          <motion.p
-            className="text-sm font-medium text-gray-600 uppercase tracking-wide"
-            whileHover={{ letterSpacing: '0.2em' }}
-            transition={{ duration: 0.3 }}
-          >
-            We shape a better world
-          </motion.p>
-        </motion.div>
+        
 
         {/* Video Section with Title Overlay */}
         <motion.div
-          className="mb-16 w-full"
+          className="mb-16 w-full mt-10"
           initial="hidden"
           animate={heroRevealed ? "visible" : "hidden"}
           variants={containerVariants}
