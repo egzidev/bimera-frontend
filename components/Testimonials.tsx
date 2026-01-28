@@ -3,7 +3,7 @@
 import Image from 'next/image'
 import { motion, useScroll, useTransform } from 'framer-motion'
 import { useInView } from 'framer-motion'
-import { useRef, useState } from 'react'
+import { useRef, useState, useEffect } from 'react'
 
 const testimonial = {
   quote: 'This project is an industrial building for which we designed the floor system',
@@ -19,23 +19,35 @@ export default function Testimonials() {
   const testimonialCardRef = useRef<HTMLDivElement>(null)
   const isInView = useInView(sectionRef, { once: true, amount: 0.2 })
   const [mousePosition, setMousePosition] = useState({ x: 0, y: 0 })
+  const [hasHover, setHasHover] = useState(true)
+  const [isMobile, setIsMobile] = useState(false)
 
-  // Parallax scroll for question
+  useEffect(() => {
+    setHasHover(window.matchMedia('(hover: hover)').matches)
+  }, [])
+  useEffect(() => {
+    const check = () => setIsMobile(window.innerWidth < 1024)
+    check()
+    window.addEventListener('resize', check)
+    return () => window.removeEventListener('resize', check)
+  }, [])
+
+  // Parallax scroll for question — stronger on mobile so text and card move with scroll
   const { scrollYProgress: questionScroll } = useScroll({
     target: questionRef,
     offset: ["start end", "end start"]
   })
-  const questionY = useTransform(questionScroll, [0, 1], [50, -50])
-  const questionOpacity = useTransform(questionScroll, [0, 0.3, 0.7, 1], [0, 1, 1, 0])
+  const questionY = useTransform(questionScroll, [0, 0.5, 1], isMobile ? [70, 0, -70] : [30, 0, -30])
+  const questionOpacity = useTransform(questionScroll, [0, 0.25, 0.75, 1], [0, 1, 1, 0])
 
-  // Parallax scroll for card
+  // Parallax scroll for card — stronger on mobile
   const { scrollYProgress: cardScroll } = useScroll({
     target: cardRef,
     offset: ["start end", "end start"]
   })
-  const cardY = useTransform(cardScroll, [0, 1], [-50, 50])
-  const cardOpacity = useTransform(cardScroll, [0, 0.3, 0.7, 1], [0, 1, 1, 0])
-  const cardScale = useTransform(cardScroll, [0, 0.3, 0.7, 1], [0.95, 1, 1, 0.95])
+  const cardY = useTransform(cardScroll, [0, 0.5, 1], isMobile ? [-70, 0, 70] : [-30, 0, 30])
+  const cardOpacity = useTransform(cardScroll, [0, 0.25, 0.75, 1], [0, 1, 1, 0])
+  const cardScale = useTransform(cardScroll, [0, 0.25, 0.75, 1], [0.97, 1, 1, 0.97])
 
   const handleMouseMove = (e: React.MouseEvent<HTMLDivElement>) => {
     if (testimonialCardRef.current) {
@@ -51,9 +63,9 @@ export default function Testimonials() {
   }
 
   return (
-    <section ref={sectionRef} className="pb-20 md:pb-32 pt-10 md:pt-20 bg-white overflow-hidden">
+    <section ref={sectionRef} className="pb-16 pt-8 sm:pb-20 sm:pt-10 md:pb-32 md:pt-20 bg-white overflow-hidden">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div className="grid lg:grid-cols-2 gap-12 lg:gap-20 items-center">
+        <div className="grid lg:grid-cols-2 gap-20 sm:gap-12 lg:gap-20 items-center">
           {/* Left: Question */}
           <motion.div
             ref={questionRef}
@@ -64,7 +76,7 @@ export default function Testimonials() {
             }}
           >
             <motion.h2
-              className="text-2xl md:text-3xl lg:text-4xl font-medium text-gray-900 leading-tight"
+              className="text-xl sm:text-2xl md:text-3xl lg:text-4xl font-medium text-gray-900 leading-tight"
               initial={{ opacity: 0, x: -30 }}
               animate={isInView ? { opacity: 1, x: 0 } : { opacity: 0, x: -30 }}
               transition={{ duration: 0.8, ease: [0.22, 1, 0.36, 1] }}
@@ -92,10 +104,10 @@ export default function Testimonials() {
               ref={testimonialCardRef}
               onMouseMove={handleMouseMove}
               onMouseLeave={handleMouseLeave}
-              className="bg-gradient-to-br from-gray-50 to-gray-100 rounded-3xl p-10 md:p-12 lg:p-14 relative overflow-hidden shadow-2xl border border-gray-200/50 group"
+              className="bg-gradient-to-br from-gray-50 to-gray-100 rounded-2xl sm:rounded-3xl p-6 sm:p-8 md:p-12 lg:p-14 relative overflow-hidden shadow-xl sm:shadow-2xl border border-gray-200/50 group"
               style={{
-                transform: `perspective(1000px) rotateY(${mousePosition.x * 0.5}deg) rotateX(${-mousePosition.y * 0.5}deg)`,
-                transition: 'transform 0.1s ease-out'
+                transform: hasHover ? `perspective(1000px) rotateY(${mousePosition.x * 0.5}deg) rotateX(${-mousePosition.y * 0.5}deg)` : 'none',
+                transition: 'transform 0.15s ease-out'
               }}
             >
               {/* Animated mesh gradient background */}
@@ -129,9 +141,9 @@ export default function Testimonials() {
                 ></div>
               </div>
 
-              {/* Large blurred background image — top right, behind (original position) */}
+              {/* Large blurred background image — top right, behind; smaller on mobile */}
               {testimonial.image && (
-                <div className="absolute -top-32 -right-32 w-96 h-96 rounded-full overflow-hidden opacity-30 blur-lg pointer-events-none z-0">
+                <div className="absolute -top-20 -right-20 sm:-top-32 sm:-right-32 w-64 h-64 sm:w-96 sm:h-96 rounded-full overflow-hidden opacity-30 blur-lg pointer-events-none z-0">
                   <div className="relative w-full h-full">
                     <Image
                       src={testimonial.image}
@@ -144,9 +156,9 @@ export default function Testimonials() {
                 </div>
               )}
 
-              {/* Circular profile image — top right corner (original position) */}
+              {/* Circular profile image — top right corner; smaller on mobile */}
               {testimonial.image && (
-                <div className="absolute -top-8 -right-8 w-40 h-40 md:w-48 md:h-48 rounded-full overflow-hidden shadow-xl z-10">
+                <div className="absolute -top-6 -right-6 sm:-top-8 sm:-right-8 w-28 h-28 sm:w-40 sm:h-40 md:w-48 md:h-48 rounded-full overflow-hidden shadow-xl z-10">
                   <div className="relative w-full h-full">
                     <Image
                       src={testimonial.image}
@@ -165,17 +177,17 @@ export default function Testimonials() {
               {/* Card Content */}
               <div className="relative z-20">
                 {/* Name */}
-                <h3 className="font-semibold text-gray-900 text-xl md:text-2xl mb-1">
+                <h3 className="font-semibold text-gray-900 text-lg sm:text-xl md:text-2xl mb-1">
                   {testimonial.author}
                 </h3>
 
                 {/* Role/Company */}
-                <p className="text-gray-600 text-sm md:text-base italic mb-8">
+                <p className="text-gray-600 text-sm md:text-base italic mb-4 sm:mb-8">
                   {testimonial.role}
                 </p>
 
                 {/* Quote with max-width for readability */}
-                <p className="text-gray-900 text-lg md:text-xl leading-relaxed max-w-sm">
+                <p className="text-gray-900 text-base sm:text-lg md:text-xl leading-relaxed max-w-sm">
                   &quot;{testimonial.quote}&quot;
                 </p>
               </div>

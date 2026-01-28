@@ -90,7 +90,7 @@ export default function Hero() {
           variants={containerVariants}
         >
           <motion.div
-            className="relative w-full h-[600px] aspect-video rounded-xl overflow-hidden bg-gray-100 z-10"
+            className="relative w-full flex lg:block h-[600px]  aspect-video rounded-xl overflow-hidden bg-gray-100 z-10"
             whileHover={{ scale: 1.01 }}
             transition={{ duration: 0.4, ease: "easeOut" }}
           >
@@ -99,14 +99,14 @@ export default function Hero() {
               loop
               muted
               playsInline
-              className="w-full h-auto object-cover"
+              className="w-full h-auto object-cover order-2 lg:order-1"
             >
               <source src="/videos/hero.mp4" type="video/mp4" />
               Your browser does not support the video tag.
             </video>
             {/* Title Overlay at Bottom */}
             <motion.div
-              className="absolute bottom-0 left-0 right-0 bg-gradient-to-t from-black/70 to-transparent p-8 md:p-12"
+              className="absolute bottom-0 left-0 order-1 lg:order-2 right-0 bg-gradient-to-t from-black/70 to-transparent p-8 md:p-12"
               variants={titleVariants}
               transition={{ duration: 0.8, ease: "easeOut" }}
             >

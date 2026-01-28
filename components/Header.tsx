@@ -1,8 +1,9 @@
 'use client'
 
-import { useState, useEffect } from 'react'
+import { useState, useEffect, useRef } from 'react'
 import Image from 'next/image'
 import { motion } from 'framer-motion'
+import { gsap } from 'gsap'
 
 const navLinks = [
     { href: '#services', label: 'Services' },
@@ -11,10 +12,17 @@ const navLinks = [
     { href: '#contact', label: 'Contact' },
 ] as const
 
+// Section ids to observe; #portfolio (mobile) counts as #work
+const SECTION_IDS = ['services', 'work', 'about', 'contact'] as const
+
 export default function Header() {
     const [isMenuOpen, setIsMenuOpen] = useState(false)
     const [isScrolled, setIsScrolled] = useState(false)
     const [hoveredLink, setHoveredLink] = useState<string | null>(null)
+    const [activeNavLink, setActiveNavLink] = useState<string>('#services')
+    const expandedMenuRef = useRef<HTMLDivElement>(null)
+    const menuLinksRef = useRef<HTMLAnchorElement[]>([])
+    const tlRef = useRef<gsap.core.Timeline | null>(null)
 
     useEffect(() => {
         const handleScroll = () => {
@@ -24,6 +32,76 @@ export default function Header() {
         window.addEventListener('scroll', handleScroll, { passive: true })
         return () => window.removeEventListener('scroll', handleScroll)
     }, [])
+
+    // Which section is in view → active nav link (#work includes #portfolio)
+    const sectionVisibilityRef = useRef<Record<string, number>>({})
+    useEffect(() => {
+        const observer = new IntersectionObserver(
+            (entries) => {
+                entries.forEach((entry) => {
+                    const id = entry.target.id
+                    sectionVisibilityRef.current[id] = entry.intersectionRatio
+                })
+                const entries_ = Object.entries(sectionVisibilityRef.current)
+                if (entries_.length === 0) return
+                const [bestId] = entries_.reduce((a, b) => (a[1] >= b[1] ? a : b))
+                setActiveNavLink(bestId === 'portfolio' ? '#work' : `#${bestId}`)
+            },
+            { rootMargin: '-20% 0px -50% 0px', threshold: [0, 0.1, 0.5, 1] }
+        )
+
+        SECTION_IDS.forEach((id) => {
+            const el = document.getElementById(id)
+            if (el) observer.observe(el)
+        })
+        return () => observer.disconnect()
+    }, [])
+
+    // GSAP timeline: full viewport height + staggered link opacity
+    useEffect(() => {
+        const menu = expandedMenuRef.current
+        const links = menuLinksRef.current.filter(Boolean)
+        if (!menu || links.length === 0) return
+
+        gsap.set(menu, { height: 0, overflow: 'hidden' })
+        gsap.set(links, { opacity: 0 })
+
+        const tl = gsap
+            .timeline({ paused: true })
+            .to(menu, {
+                duration: 1.2,
+                delay: 0.1,
+                height: '100vh',
+                ease: 'power4.out',
+                overflow: 'hidden',
+            })
+            .to(
+                links,
+                {
+                    duration: 1,
+                    opacity: 1,
+                    ease: 'power4.inOut',
+                    stagger: 0.05,
+                },
+                0.3
+            )
+
+        tlRef.current = tl
+        return () => {
+            tl.kill()
+            tlRef.current = null
+        }
+    }, [])
+
+    useEffect(() => {
+        const tl = tlRef.current
+        if (!tl) return
+        if (isMenuOpen) {
+            tl.play()
+        } else {
+            tl.reverse()
+        }
+    }, [isMenuOpen])
 
     return (
         <header
@@ -108,41 +186,48 @@ export default function Header() {
                     </motion.div>
                 </div>
 
-                {/* Mobile Navigation */}
-                {isMenuOpen && (
-                    <div className="lg:hidden border-t border-white/20 bg-white/70 backdrop-blur-xl">
-                        <div className="px-4 py-4 space-y-3">
-                            <a
-                                href="#services"
-                                className="block text-gray-700 hover:text-gray-900 text-sm font-medium transition-colors"
-                                onClick={() => setIsMenuOpen(false)}
-                            >
-                                Services
-                            </a>
-                            <a
-                                href="#work"
-                                className="block text-gray-700 hover:text-gray-900 text-sm font-medium transition-colors"
-                                onClick={() => setIsMenuOpen(false)}
-                            >
-                                Projects
-                            </a>
-                            <a
-                                href="#about"
-                                className="block text-gray-700 hover:text-gray-900 text-sm font-medium transition-colors"
-                                onClick={() => setIsMenuOpen(false)}
-                            >
-                                About
-                            </a>
-                            <a
-                                href="#contact"
-                                className="block text-gray-700 hover:text-gray-900 text-sm font-medium transition-colors"
-                                onClick={() => setIsMenuOpen(false)}
-                            >
-                                Contact
-                            </a>
-                        </div>
+                {/* Mobile Navigation — full viewport overlay, GSAP animates height + stagger */}
+                <div
+                    id="expanded-menu"
+                    ref={expandedMenuRef}
+                    className="lg:hidden fixed top-0 left-0 right-0 z-[75] bg-white/95 backdrop-blur-2xl pl-10"
+                    style={{ height: 0, overflow: 'hidden' }}
+                >
+                    <div className="flex flex-col justify-center min-h-full px-6 py-20 relative">
+                        <button
+                            type="button"
+                            className="absolute top-5 right-4 p-2 text-gray-700 hover:text-gray-900 transition-colors z-10"
+                            onClick={() => setIsMenuOpen(false)}
+                            aria-label="Close menu"
+                        >
+                            <svg className="w-9 h-9" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
+                            </svg>
+                        </button>
+                        <nav className="space-y-6">
+                            {navLinks.map(({ href, label }, index) => {
+                                const isCurrent = activeNavLink === href
+                                return (
+                                    <a
+                                        key={href}
+                                        href={href}
+                                        ref={(el) => {
+                                            if (el) menuLinksRef.current[index] = el
+                                        }}
+                                        className={`menu-link block text-gray-900 font-semibold transition-all duration-300 py-3 ${
+                                            isCurrent
+                                                ? 'text-4xl sm:text-5xl scale-110 sm:scale-125 text-[#004aad]'
+                                                : 'text-3xl sm:text-4xl blur-[2px] sm:blur-[5px] opacity-60'
+                                        }`}
+                                        onClick={() => setIsMenuOpen(false)}
+                                    >
+                                        {label}
+                                    </a>
+                                )
+                            })}
+                        </nav>
                     </div>
-                )}
+                </div>
             </nav>
         </header>
     )

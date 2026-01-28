@@ -49,10 +49,15 @@ export default function About() {
   const [isVisible, setIsVisible] = useState(false)
   const [mousePosition, setMousePosition] = useState({ x: 0, y: 0 })
   const [imageReveal, setImageReveal] = useState(0)
+  const [hasHover, setHasHover] = useState(true)
   const cardRef = useRef<HTMLDivElement>(null)
   const imageRef = useRef<HTMLDivElement>(null)
   const statsRef = useRef<HTMLDivElement>(null)
   const statsInView = useInView(statsRef, { once: true, amount: 0.5 })
+
+  useEffect(() => {
+    setHasHover(window.matchMedia('(hover: hover)').matches)
+  }, [])
 
   useEffect(() => {
     const handleScroll = () => {
@@ -98,37 +103,37 @@ export default function About() {
   }
 
   return (
-    <section id="about" className="py-20 bg-white overflow-hidden">
+    <section id="about" className="py-12 sm:py-16 lg:py-20 bg-white overflow-hidden">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div className="grid lg:grid-cols-2 gap-6 lg:gap-8">
+        <div className="grid lg:grid-cols-2 gap-8 sm:gap-6 lg:gap-8">
           {/* Left Card - Dark Blue with Quality Stats */}
-          <div className="z-10 bg-[#004AAD] rounded-2xl p-6 md:p-8 lg:p-10 flex flex-col justify-between shadow-2xl">
+          <div className="z-10 bg-[#004AAD] rounded-2xl p-5 sm:p-6 md:p-8 lg:p-10 flex flex-col justify-between shadow-xl sm:shadow-2xl">
             {/* Quality Promise Text */}
-            <div className="text-white mb-6">
-              <p className="text-lg md:text-xl leading-relaxed font-medium">
+            <div className="text-white mb-4 sm:mb-6">
+              <p className="text-base sm:text-lg md:text-xl leading-relaxed font-medium">
                 Quality is our promise, therefore we are transparent about meeting quality standards
               </p>
             </div>
 
             {/* Stats at bottom */}
-            <div ref={statsRef} className="grid grid-cols-2 gap-6 mt-auto pt-6 border-t border-blue-400/30">
+            <div ref={statsRef} className="grid grid-cols-2 gap-4 sm:gap-6 mt-auto pt-4 sm:pt-6 border-t border-blue-400/30">
               <div>
-                <div className="text-4xl md:text-5xl font-bold text-white mb-2">
+                <div className="text-3xl sm:text-4xl md:text-5xl font-bold text-white mb-1 sm:mb-2">
                   {statsInView && (
                     <AnimatedNumber value={3019} suffix=" h" />
                   )}
                   {!statsInView && <span>0 h</span>}
                 </div>
-                <div className="text-sm md:text-base text-blue-200 font-medium">Hours worked this year</div>
+                <div className="text-xs sm:text-sm md:text-base text-blue-200 font-medium">Hours worked this year</div>
               </div>
               <div>
-                <div className="text-4xl md:text-5xl font-bold text-white mb-2">
+                <div className="text-3xl sm:text-4xl md:text-5xl font-bold text-white mb-1 sm:mb-2">
                   {statsInView && (
                     <AnimatedNumber value={0.2} suffix="%" decimals={1} />
                   )}
                   {!statsInView && <span>0.0%</span>}
                 </div>
-                <div className="text-sm md:text-base text-blue-200 font-medium">Deviation Index</div>
+                <div className="text-xs sm:text-sm md:text-base text-blue-200 font-medium">Deviation Index</div>
               </div>
             </div>
           </div>
@@ -138,10 +143,10 @@ export default function About() {
             ref={cardRef}
             onMouseMove={handleMouseMove}
             onMouseLeave={handleMouseLeave}
-            className="relative rounded-2xl z-10 overflow-hidden shadow-2xl group border border-white/50 bg-white/40 backdrop-blur-2xl"
+            className="relative rounded-2xl z-10 overflow-hidden shadow-xl sm:shadow-2xl group border border-white/50 bg-white/40 backdrop-blur-2xl"
             style={{
-              transform: `perspective(1000px) rotateY(${mousePosition.x * 0.5}deg) rotateX(${-mousePosition.y * 0.5}deg)`,
-              transition: 'transform 0.1s ease-out'
+              transform: hasHover ? `perspective(1000px) rotateY(${mousePosition.x * 0.5}deg) rotateX(${-mousePosition.y * 0.5}deg)` : 'none',
+              transition: 'transform 0.15s ease-out'
             }}
           >
             {/* Animated mesh gradient background (softened for glass) */}
@@ -176,7 +181,7 @@ export default function About() {
             </div>
 
             {/* Content Container */}
-            <div className="relative z-10 p-6 md:p-8 lg:p-10 min-h-[340px] flex flex-col">
+            <div className="relative z-10 p-5 sm:p-6 md:p-8 lg:p-10 min-h-[300px] sm:min-h-[340px] flex flex-col">
               {/* Text Content - Staggered Animation */}
               <div className="flex-1 flex flex-col justify-between">
                 <div>
@@ -193,7 +198,7 @@ export default function About() {
                   </div>
 
                   <h2
-                    className={`text-2xl md:text-3xl lg:text-4xl font-medium mb-2 leading-tight transition-all duration-1000 ${isVisible
+                    className={`text-xl sm:text-2xl md:text-3xl lg:text-4xl font-medium mb-2 leading-tight transition-all duration-1000 ${isVisible
                       ? 'opacity-100 translate-y-0'
                       : 'opacity-0 translate-y-10'
                       }`}
@@ -209,7 +214,7 @@ export default function About() {
                   </h2>
 
                   <p
-                    className={`text-lg md:text-xl text-gray-700 mb-8 leading-relaxed max-w-lg transition-all duration-1000 ${isVisible
+                    className={`text-base sm:text-lg md:text-xl text-gray-700 mb-6 sm:mb-8 leading-relaxed max-w-lg transition-all duration-1000 ${isVisible
                       ? 'opacity-100 translate-y-0'
                       : 'opacity-0 translate-y-10'
                       }`}
@@ -231,7 +236,7 @@ export default function About() {
                     href="#contact"
                     className="group/btn relative inline-flex items-center justify-center px-8 py-4 bg-white border-2 border-blue-600 text-blue-600 font-semibold rounded-xl overflow-hidden transition-all duration-300 hover:border-blue-600 hover:text-blue-600"
                     style={{
-                      transform: `translate(${mousePosition.x * 0.1}px, ${mousePosition.y * 0.1}px)`,
+                        transform: hasHover ? `translate(${mousePosition.x * 0.1}px, ${mousePosition.y * 0.1}px)` : 'none',
                       transition: 'transform 0.1s ease-out'
                     }}
                   >
@@ -275,8 +280,8 @@ export default function About() {
                 }}
               />
 
-              {/* Blurred duplicate of team image — behind, same effect as Testimonials */}
-              <div className="absolute -bottom-12 -right-20 w-[380px] h-[380px] md:w-[480px] md:h-[480px] lg:w-[580px] lg:h-[580px] rounded-full overflow-hidden opacity-30 blur-lg pointer-events-none z-0">
+              {/* Blurred duplicate of team image — behind; smaller on mobile */}
+              <div className="absolute -bottom-8 -right-12 sm:-bottom-12 sm:-right-20 w-[240px] h-[240px] sm:w-[320px] sm:h-[320px] md:w-[480px] md:h-[480px] lg:w-[580px] lg:h-[580px] rounded-full overflow-hidden opacity-30 blur-lg pointer-events-none z-0">
                 <div className="relative w-full h-full">
                   <Image
                     src="/images/team.png"
@@ -288,12 +293,12 @@ export default function About() {
                 </div>
               </div>
 
-              {/* Team Image - Smooth Fade Reveal Animation */}
+              {/* Team Image - Smooth Fade Reveal Animation; smaller on mobile */}
               <div
                 ref={imageRef}
-                className="absolute bottom-[-30px] right-[-80px] w-72 md:w-80 lg:w-[500px] h-auto pointer-events-none overflow-hidden z-10"
-                style={{
-                  transform: `translate(${mousePosition.x * 0.3}px, ${mousePosition.y * 0.3}px) rotate(${mousePosition.x * 0.1}deg)`,
+                className="absolute bottom-[-20px] right-[-40px] sm:bottom-[-30px] sm:right-[-60px] w-48 sm:w-64 md:w-80 lg:w-[500px] h-auto pointer-events-none overflow-hidden z-10"
+                    style={{
+                      transform: hasHover ? `translate(${mousePosition.x * 0.3}px, ${mousePosition.y * 0.3}px) rotate(${mousePosition.x * 0.1}deg)` : 'none',
                   transitionProperty: 'transform',
                   transitionDuration: '0.1s',
                   transitionTimingFunction: 'ease-out'

@@ -40,6 +40,7 @@ const projects = [
 export default function LatestWork() {
   const ref = useRef(null)
   const sectionRef = useRef<HTMLDivElement>(null)
+  const latestWorkTitleRef = useRef<HTMLDivElement>(null)
   const isInView = useInView(ref, { once: true, amount: 0.2 })
   const [expandedIndex, setExpandedIndex] = useState<number>(0)
   const [isMobile, setIsMobile] = useState(false)
@@ -50,6 +51,13 @@ export default function LatestWork() {
     target: sectionRef.current ? sectionRef : ref,
     offset: ["start start", "end end"]
   })
+
+  // Mobile: parallax for "Our latest work" title — moves with scroll
+  const { scrollYProgress: latestWorkTitleScroll } = useScroll({
+    target: latestWorkTitleRef,
+    offset: ["start end", "end start"]
+  })
+  const latestWorkTitleY = useTransform(latestWorkTitleScroll, [0, 0.5, 1], [60, 0, -60])
 
   // Mobile detection and resize handler
   useEffect(() => {
@@ -144,12 +152,55 @@ export default function LatestWork() {
   // Mobile horizontal scrolling gallery
   if (isMobile) {
     return (
+      <>
+      <section id="work" className="block lg:hidden relative">
+       {/* Sentinel for scroll target — always in DOM to avoid hydration error */}
+       <div
+         ref={latestWorkTitleRef}
+         aria-hidden
+         className="absolute left-0 right-0 h-px opacity-0 pointer-events-none -z-10"
+         style={{ top: 0 }}
+       />
+       {/* Mobile: Our latest work title — moves with scroll (parallax) */}
+       <motion.div
+         style={{ y: latestWorkTitleY }}
+         className="max-w-7xl mx-auto px-4 sm:px-6 pt-12 pb-6"
+       >
+            <h2 className="text-3xl font-medium text-gray-900 mb-2">
+              Our latest work
+            </h2>
+            <a
+              href="#projects"
+              className="text-blue-600 hover:text-blue-700 font-medium text-sm transition-colors duration-300 inline-flex items-center"
+            >
+              See all our projects
+              <svg className="ml-1.5 w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13 7l5 5m0 0l-5 5m5-5H6" />
+              </svg>
+            </a>
+          </motion.div>
+      </section>
       <section
         ref={sectionRef}
-        id="portfolio"
+        id="work"
         className="relative bg-white overflow-hidden"
       >
         <div className="w-full" style={{ paddingBottom: '40px' }}>
+          {/* Mobile: Our latest work title */}
+          <div className="max-w-7xl mx-auto px-4 sm:px-6 pt-12 pb-6 hidden lg:block">
+            <h2 className="text-3xl font-medium text-gray-900 mb-2">
+              Our latest work
+            </h2>
+            <a
+              href="#projects"
+              className="text-blue-600 hover:text-blue-700 font-medium text-sm transition-colors duration-300 inline-flex items-center"
+            >
+              See all our projects
+              <svg className="ml-1.5 w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13 7l5 5m0 0l-5 5m5-5H6" />
+              </svg>
+            </a>
+          </div>
           <div className="horiz-gallery-wrapper flex flex-nowrap will-change-transform relative">
             <div
               ref={galleryStripRef}
@@ -255,12 +306,20 @@ export default function LatestWork() {
           </div>
         </div>
       </section>
+      </>
     )
   }
 
   // Desktop layout (unchanged)
   return (
-    <section ref={ref} id="work" className="py-20 bg-white">
+    <section ref={ref} id="work" className="py-20 bg-white relative">
+      {/* Sentinel for useScroll target — ensures ref is always attached (avoids hydration error) */}
+      <div
+        ref={latestWorkTitleRef}
+        aria-hidden
+        className="absolute left-0 right-0 h-px opacity-0 pointer-events-none -z-10"
+        style={{ top: 0 }}
+      />
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         {/* Header with title and link */}
         <motion.div
