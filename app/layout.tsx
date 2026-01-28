@@ -7,6 +7,9 @@ const inter = Inter({ subsets: ['latin'] })
 export const metadata: Metadata = {
   title: 'Bimera - Smart Structural Design',
   description: 'Smart structural design for efficient and buildable projects. Structural engineering consultancy headquartered in Sweden.',
+  icons: {
+    icon: '/favicon.ico',
+  },
 }
 
 export default function RootLayout({
