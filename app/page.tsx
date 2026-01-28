@@ -1,3 +1,7 @@
+'use client'
+
+import { useRef, useState } from 'react'
+import { gsap } from 'gsap'
 import Header from '@/components/Header'
 import Hero from '@/components/Hero'
 import Services from '@/components/Services'
@@ -6,12 +10,34 @@ import Partners from '@/components/Partners'
 import Testimonials from '@/components/Testimonials'
 import LatestWork from '@/components/LatestWork'
 import Footer from '@/components/Footer'
+import Welcome from '@/components/Welcome'
 
 export default function Home() {
+  const [showWelcome, setShowWelcome] = useState(true)
+  const mainRef = useRef<HTMLElement>(null)
+
+  const handleWelcomeComplete = () => {
+    setShowWelcome(false)
+
+    // bring the site (hero) from bottom after welcome
+    requestAnimationFrame(() => {
+      if (!mainRef.current) return
+      gsap.fromTo(
+        mainRef.current,
+        { y:200, opacity: 0 },
+        { y: 0, opacity: 1, duration: 1.1, ease: 'power3.out' }
+      )
+    })
+  }
+
   return (
     <>
+      {showWelcome && <Welcome onComplete={handleWelcomeComplete} />}
       <Header />
-      <main>
+      <main
+        ref={mainRef}
+        style={showWelcome ? { opacity: 0, transform: 'translateY(0px)' } : undefined}
+      >
         <Hero />
         <Services />
         <LatestWork />
