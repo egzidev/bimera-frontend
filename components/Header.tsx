@@ -1,6 +1,7 @@
 'use client'
 
 import { useState, useEffect } from 'react'
+import Image from 'next/image'
 import { motion } from 'framer-motion'
 
 const navLinks = [
@@ -44,9 +45,11 @@ export default function Header() {
                             href="/"
                             className="flex items-center space-x-2 group"
                         >
-                            <img
+                            <Image
                                 src="/images/logo.png"
                                 alt="Bimera Logo"
+                                width={140}
+                                height={32}
                                 className="h-6 md:h-7 w-auto transition-transform duration-300 group-hover:scale-110"
                             />
                         </a>

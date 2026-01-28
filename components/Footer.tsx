@@ -1,6 +1,7 @@
 'use client'
 
 import { useRef } from 'react'
+import Image from 'next/image'
 import { motion, useScroll, useTransform } from 'framer-motion'
 
 export default function Footer() {
@@ -34,9 +35,11 @@ export default function Footer() {
         <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4 py-6 pt-14 sm:pt-16">
           <div className="flex items-center gap-3">
             <a href="/" className="shrink-0">
-              <img
+              <Image
                 src="/images/logo.png"
                 alt="Bimera"
+                width={140}
+                height={32}
                 className="h-7 w-auto opacity-90"
               />
             </a>

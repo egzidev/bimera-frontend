@@ -25,25 +25,25 @@ const services = [
 const materials = [
   {
     title: 'Precast Frames',
-    image: '/images/render1.jpg',
+    image: '/images/services/precast.png',
     description: 'Efficient and cost-effective structural solutions with precast concrete frames. Perfect for rapid construction and consistent quality.',
     overlayColor: 'bg-blue-400/30' // Light blue overlay
   },
   {
     title: 'Steel Frames',
-    image: '/images/render2.jpg',
+    image: '/images/services/steel.png',
     description: 'Strong and versatile steel frame structures for modern construction. Ideal for large spans and flexible design requirements.',
     overlayColor: 'bg-transparent' // No overlay when active
   },
   {
     title: 'In-situ Frames',
-    image: '/images/render3.jpg',
+    image: '/images/services/in-situ.png',
     description: 'Custom concrete frames built on-site for maximum design flexibility. Tailored solutions for unique architectural requirements.',
     overlayColor: 'bg-slate-700/40' // Dark blue-grey overlay
   },
   {
     title: 'Timber and Composite',
-    image: '/images/render4.webp',
+    image: '/images/services/timber.png',
     description: 'Sustainable timber and composite material solutions for eco-friendly construction. Combining natural beauty with modern engineering.',
     overlayColor: 'bg-orange-900/30' // Warm brown/orange overlay
   },
@@ -446,8 +446,9 @@ export default function Services() {
             }}
           />
           <div className="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div className="flex items-end justify-between mb-14">
           <h2
-            className={`text-5xl md:text-6xl font-medium text-gray-900 mb-3 transition-all duration-800 ${isVisible
+            className={`text-5xl md:text-6xl font-medium text-gray-900 transition-all duration-800 ${isVisible
               ? 'opacity-100 translate-y-0'
               : 'opacity-0 translate-y-10'
               }`}
@@ -455,7 +456,7 @@ export default function Services() {
             Our Services
           </h2>
           <p
-            className={`text-gray-600 text-lg mb-12 transition-all duration-1000 max-w-2xl ${isVisible
+            className={`text-gray-600 text-lg transition-all duration-1000 max-w-2xl ${isVisible
               ? 'opacity-100 translate-y-0'
               : 'opacity-0 translate-y-10'
               }`}
@@ -463,6 +464,7 @@ export default function Services() {
           >
             Our team specializes in all types of structural frames and materials.
           </p>
+          </div>
           <div className="grid lg:grid-cols-2 gap-12 lg:gap-16">
             {/* Left Column - Services: circle + GSAP parallax cards (noise-trio is at section level, full viewport) */}
             <div ref={servicesColumnRef} className="relative overflow-visible">

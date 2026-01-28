@@ -1,5 +1,6 @@
 'use client'
 
+import Image from 'next/image'
 import { motion, AnimatePresence, useScroll, useTransform } from 'framer-motion'
 import { useInView } from 'framer-motion'
 import { useRef, useState, useEffect } from 'react'
@@ -40,7 +41,7 @@ export default function LatestWork() {
   const ref = useRef(null)
   const sectionRef = useRef<HTMLDivElement>(null)
   const isInView = useInView(ref, { once: true, amount: 0.2 })
-  const [expandedIndex, setExpandedIndex] = useState<number | null>(null)
+  const [expandedIndex, setExpandedIndex] = useState<number>(0)
   const [isMobile, setIsMobile] = useState(false)
   const [activeCardIndex, setActiveCardIndex] = useState(0)
 
@@ -65,7 +66,7 @@ export default function LatestWork() {
   useEffect(() => {
     if (!isMobile) {
       setActiveCardIndex(0)
-      setExpandedIndex(null)
+      setExpandedIndex(0)
       return
     }
 
@@ -167,14 +168,18 @@ export default function LatestWork() {
                   <div className="relative w-full rounded-2xl overflow-hidden" style={{ height: 'calc(100vh - 120px)' }}>
                     {/* Background Image */}
                     <div className="absolute inset-0">
-                      <img
+                      <div className="relative w-full h-full">
+                        <Image
                         src={project.image}
                         alt={project.title}
-                        className="w-full h-full object-cover"
+                        fill
+                        sizes="100vw"
+                        className="object-cover"
                         style={{
                           filter: 'brightness(0.7) contrast(1.1) saturate(0.9)',
                         }}
-                      />
+                        />
+                      </div>
                       {/* Gradient overlay */}
                       <div
                         className="absolute inset-0"
@@ -311,14 +316,18 @@ export default function LatestWork() {
                 >
                   {/* Background Image with darkened filter */}
                   <div className="absolute inset-0">
-                    <img
+                    <div className="relative w-full h-full">
+                      <Image
                       src={project.image}
                       alt={project.title}
-                      className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110"
+                      fill
+                      sizes="(max-width: 1024px) 100vw, 50vw"
+                      className="object-cover transition-transform duration-500 group-hover:scale-110"
                       style={{
                         filter: 'brightness(0.7) contrast(1.1) saturate(0.9)',
                       }}
-                    />
+                      />
+                    </div>
                     {/* Gradient overlay */}
                     <div
                       className="absolute inset-0"

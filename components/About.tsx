@@ -1,5 +1,6 @@
 'use client'
 
+import Image from 'next/image'
 import { useEffect, useState, useRef } from 'react'
 import { motion, useMotionValue, useSpring, useTransform, useInView } from 'framer-motion'
 
@@ -276,11 +277,15 @@ export default function About() {
 
               {/* Blurred duplicate of team image — behind, same effect as Testimonials */}
               <div className="absolute -bottom-12 -right-20 w-[380px] h-[380px] md:w-[480px] md:h-[480px] lg:w-[580px] lg:h-[580px] rounded-full overflow-hidden opacity-30 blur-lg pointer-events-none z-0">
-                <img
-                  src="/images/team.png"
-                  alt=""
-                  className="w-full h-full object-cover scale-150"
-                />
+                <div className="relative w-full h-full">
+                  <Image
+                    src="/images/team.png"
+                    alt=""
+                    fill
+                    sizes="(max-width: 768px) 380px, (max-width: 1024px) 480px, 580px"
+                    className="object-cover scale-150"
+                  />
+                </div>
               </div>
 
               {/* Team Image - Smooth Fade Reveal Animation */}
@@ -305,9 +310,11 @@ export default function About() {
                     transitionTimingFunction: 'cubic-bezier(0.4, 0, 0.2, 1)'
                   }}
                 >
-                  <img
+                  <Image
                     src="/images/team.png"
                     alt="Bimera Team"
+                    width={500}
+                    height={400}
                     className="w-full h-auto object-contain drop-shadow-2xl"
                   />
                 </div>

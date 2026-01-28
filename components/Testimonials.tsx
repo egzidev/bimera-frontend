@@ -1,5 +1,6 @@
 'use client'
 
+import Image from 'next/image'
 import { motion, useScroll, useTransform } from 'framer-motion'
 import { useInView } from 'framer-motion'
 import { useRef, useState } from 'react'
@@ -128,25 +129,33 @@ export default function Testimonials() {
                 ></div>
               </div>
 
-              {/* Large blurred background image */}
+              {/* Large blurred background image — top right, behind (original position) */}
               {testimonial.image && (
-                <div className="absolute -top-32 -right-32 w-96 h-96 rounded-full overflow-hidden opacity-30 blur-lg pointer-events-none">
-                  <img
-                    src={testimonial.image}
-                    alt=""
-                    className="w-full h-full object-cover scale-150"
-                  />
+                <div className="absolute -top-32 -right-32 w-96 h-96 rounded-full overflow-hidden opacity-30 blur-lg pointer-events-none z-0">
+                  <div className="relative w-full h-full">
+                    <Image
+                      src={testimonial.image}
+                      alt=""
+                      fill
+                      sizes="384px"
+                      className="object-cover scale-150"
+                    />
+                  </div>
                 </div>
               )}
 
-              {/* Circular profile image - top right corner, extending beyond edges */}
+              {/* Circular profile image — top right corner (original position) */}
               {testimonial.image && (
                 <div className="absolute -top-8 -right-8 w-40 h-40 md:w-48 md:h-48 rounded-full overflow-hidden shadow-xl z-10">
-                  <img
-                    src={testimonial.image}
-                    alt={testimonial.author}
-                    className="w-full h-full object-cover"
-                  />
+                  <div className="relative w-full h-full">
+                    <Image
+                      src={testimonial.image}
+                      alt={testimonial.author}
+                      fill
+                      sizes="(max-width: 768px) 160px, 192px"
+                      className="object-cover"
+                    />
+                  </div>
                 </div>
               )}
 
