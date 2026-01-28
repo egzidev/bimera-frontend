@@ -1,0 +1,101 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+* {
+  scroll-behavior: smooth;
+}
+
+body {
+  color: rgb(17, 24, 39);
+  background: rgb(255, 255, 255);
+}
+
+@keyframes shimmer {
+  0% {
+    background-position: -200% 0;
+  }
+
+  100% {
+    background-position: 200% 0;
+  }
+}
+
+.animate-shimmer {
+  background-size: 200% 100%;
+  animation: shimmer 3s infinite;
+}
+
+.button-gradient {
+  background: linear-gradient(to bottom right, rgb(229, 231, 235), rgb(209, 213, 219));
+  transition: background 0.3s ease;
+}
+
+.group:hover .button-gradient {
+  background: linear-gradient(to bottom right, #004aad, #003d8a);
+}
+
+/* Hide scrollbar for horizontal scroll */
+.hide-scrollbar {
+  scrollbar-width: none;
+  /* Firefox */
+  -ms-overflow-style: none;
+  /* IE and Edge */
+}
+
+.hide-scrollbar::-webkit-scrollbar {
+  display: none;
+  /* Chrome, Safari, Opera */
+}
+
+/* Hero glass lens: crisp circle, same glass as About/Services */
+.hero-glass-lens {
+  -webkit-backdrop-filter: blur(24px);
+  backdrop-filter: blur(24px);
+}
+
+/* Hero glass: looped lens deformation when hovered */
+@keyframes hero-glass-deform {
+  0%, 100% {
+    transform: scale(1) skew(0deg, 0deg);
+  }
+  25% {
+    transform: scale(1.02) skew(0.6deg, -0.4deg);
+  }
+  50% {
+    transform: scale(0.98) skew(-0.5deg, 0.5deg);
+  }
+  75% {
+    transform: scale(1.01) skew(0.3deg, 0.4deg);
+  }
+}
+
+.hero-glass-deform {
+  animation: hero-glass-deform 3s ease-in-out infinite;
+  transform-origin: center center;
+}
+
+/* Hero glass: fine chromatic tint inside the letterforms */
+.hero-chromatic {
+  color: #fff;
+  text-shadow:
+    -0.35px 0 rgba(255, 160, 180, 0.55),
+    0.35px 0 rgba(160, 220, 255, 0.55),
+    0 -0.35px rgba(180, 255, 180, 0.5),
+    0 0.35px rgba(220, 180, 255, 0.45);
+}
+
+/* Horizontal scrolling gallery styles */
+@media (max-width: 767px) {
+  body {
+    overflow-x: hidden;
+  }
+
+  .horiz-gallery-wrapper,
+  .horiz-gallery-strip {
+    display: flex;
+    flex-wrap: nowrap;
+    will-change: transform;
+    position: relative;
+  }
+}
