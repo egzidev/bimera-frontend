@@ -13,6 +13,24 @@ body {
   font-weight: 300;
 }
 
+/* ScrollSmoother wrapper and content */
+#smooth-wrapper {
+  overflow: hidden;
+  position: fixed;
+  height: 100%;
+  width: 100%;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+}
+
+#smooth-content {
+  overflow: visible;
+  width: 100%;
+  will-change: transform;
+}
+
 @keyframes shimmer {
   0% {
     background-position: -200% 0;
@@ -99,5 +117,20 @@ body {
     flex-wrap: nowrap;
     will-change: transform;
     position: relative;
+  }
+}
+
+/* Flip scroll section: white background */
+.flip-scroll-main {
+  background-color: #fff;
+}
+
+/* Flip scroll: floating orb levitating animation */
+@keyframes flip-orb-float {
+  0%, 100% {
+    transform: translateY(0);
+  }
+  50% {
+    transform: translateY(-14px);
   }
 }

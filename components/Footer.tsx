@@ -60,7 +60,7 @@ export default function Footer() {
           <nav className="flex gap-4">
             <a href="#services" className="hover:text-white transition-colors">Services</a>
             <a href="#work" className="hover:text-white transition-colors">Projects</a>
-            <a href="#about" className="hover:text-white transition-colors">About</a>
+            <a href="/about" className="hover:text-white transition-colors">About</a>
             <a href="#contact" className="hover:text-white transition-colors">Contact</a>
           </nav>
           <p>© 2026 Bimera. All rights reserved.</p>

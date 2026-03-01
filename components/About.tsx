@@ -233,7 +233,7 @@ export default function About() {
                   style={{ transitionDelay: '600ms' }}
                 >
                   <a
-                    href="#contact"
+                    href="/about"
                     className="group/btn relative inline-flex items-center justify-center px-8 py-4 bg-white border-2 border-blue-600 text-blue-600 font-semibold rounded-xl overflow-hidden transition-all duration-300 hover:border-blue-600 hover:text-blue-600"
                     style={{
                         transform: hasHover ? `translate(${mousePosition.x * 0.1}px, ${mousePosition.y * 0.1}px)` : 'none',

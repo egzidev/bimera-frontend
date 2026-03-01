@@ -2,13 +2,14 @@
 
 import { useState, useEffect, useRef } from 'react'
 import Image from 'next/image'
+import { usePathname } from 'next/navigation'
 import { motion } from 'framer-motion'
 import { gsap } from 'gsap'
 
 const navLinks = [
     { href: '#services', label: 'Services' },
     { href: '#work', label: 'Projects' },
-    { href: '#about', label: 'About' },
+    { href: '/about', label: 'About' },
     { href: '#contact', label: 'Contact' },
 ] as const
 
@@ -16,6 +17,8 @@ const navLinks = [
 const SECTION_IDS = ['services', 'work', 'about', 'contact'] as const
 
 export default function Header() {
+    const pathname = usePathname()
+    const isAboutPage = pathname === '/about' || pathname?.startsWith('/about/')
     const [isMenuOpen, setIsMenuOpen] = useState(false)
     const [isScrolled, setIsScrolled] = useState(false)
     const [hoveredLink, setHoveredLink] = useState<string | null>(null)
@@ -142,11 +145,13 @@ export default function Header() {
                         transition={{ duration: 0.8, delay: 0.5, ease: [0.22, 1, 0.36, 1] }}
                     >
                         {navLinks.map(({ href, label }) => {
+                            const isHash = href.startsWith('#')
+                            const resolvedHref = isAboutPage && isHash ? `/${href}` : href
                             const isHovered = hoveredLink === href
                             return (
                                 <a
                                     key={href}
-                                    href={href}
+                                    href={resolvedHref}
                                     className={`relative px-4 py-2 text-sm font-medium group transition-all duration-300 ${
                                         isHovered
                                             ? 'text-[#004aad] scale-110'
@@ -206,11 +211,13 @@ export default function Header() {
                         </button>
                         <nav className="space-y-6">
                             {navLinks.map(({ href, label }, index) => {
+                                const isHash = href.startsWith('#')
+                                const resolvedHref = isAboutPage && isHash ? `/${href}` : href
                                 const isCurrent = activeNavLink === href
                                 return (
                                     <a
                                         key={href}
-                                        href={href}
+                                        href={resolvedHref}
                                         ref={(el) => {
                                             if (el) menuLinksRef.current[index] = el
                                         }}

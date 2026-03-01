@@ -127,47 +127,91 @@ export default function LatestWork() {
       })
     }
 
-    // Wait a bit to ensure any parent animations (like main element) are complete
-    const initDelay = setTimeout(() => {
-      // Wait for images to load before calculating width
-      const images = pinWrap.querySelectorAll('img')
-      let imagesLoaded = 0
-      const totalImages = images.length
+    // Wait for ScrollSmoother to be ready (if it exists) and parent animations
+    const waitForScrollSmoother = () => {
+      // Check if ScrollSmoother exists and is ready
+      const checkSmoother = () => {
+        const smoother = (window as any).ScrollSmoother?.get()
+        return smoother && smoother.isActive()
+      }
 
-      const checkImagesLoaded = () => {
-        imagesLoaded++
-        if (imagesLoaded >= totalImages || totalImages === 0) {
+      const tryInit = () => {
+        // Wait for images to load before calculating width
+        const images = pinWrap.querySelectorAll('img')
+        let imagesLoaded = 0
+        const totalImages = images.length
+
+        const checkImagesLoaded = () => {
+          imagesLoaded++
+          if (imagesLoaded >= totalImages || totalImages === 0) {
+            refresh()
+            // Small delay to ensure DOM is fully updated
+            requestAnimationFrame(() => {
+              initScrollTrigger()
+              ScrollTrigger.refresh()
+              // Refresh ScrollSmoother if it exists
+              const smoother = (window as any).ScrollSmoother?.get()
+              if (smoother) {
+                smoother.refresh()
+              }
+            })
+          }
+        }
+
+        if (totalImages > 0) {
+          images.forEach((img) => {
+            if (img.complete) {
+              checkImagesLoaded()
+            } else {
+              img.addEventListener('load', checkImagesLoaded, { once: true })
+              img.addEventListener('error', checkImagesLoaded, { once: true })
+            }
+          })
+        } else {
           refresh()
-          // Small delay to ensure DOM is fully updated
           requestAnimationFrame(() => {
             initScrollTrigger()
             ScrollTrigger.refresh()
+            // Refresh ScrollSmoother if it exists
+            const smoother = (window as any).ScrollSmoother?.get()
+            if (smoother) {
+              smoother.refresh()
+            }
           })
         }
       }
 
-      if (totalImages > 0) {
-        images.forEach((img) => {
-          if (img.complete) {
-            checkImagesLoaded()
-          } else {
-            img.addEventListener('load', checkImagesLoaded, { once: true })
-            img.addEventListener('error', checkImagesLoaded, { once: true })
-          }
-        })
+      // If ScrollSmoother exists, wait for it; otherwise proceed immediately
+      if (checkSmoother()) {
+        tryInit()
       } else {
-        refresh()
-        requestAnimationFrame(() => {
-          initScrollTrigger()
-          ScrollTrigger.refresh()
-        })
+        // Wait a bit for ScrollSmoother to initialize, then proceed
+        const checkInterval = setInterval(() => {
+          if (checkSmoother() || !(window as any).ScrollSmoother) {
+            clearInterval(checkInterval)
+            setTimeout(tryInit, 100) // Small delay after ScrollSmoother is ready
+          }
+        }, 50)
+        
+        // Fallback timeout
+        setTimeout(() => {
+          clearInterval(checkInterval)
+          tryInit()
+        }, 1000)
       }
-    }, 100)
+    }
+
+    waitForScrollSmoother()
 
     // Handle window resize
     const handleResize = () => {
       refresh()
       ScrollTrigger.refresh()
+      // Refresh ScrollSmoother if it exists
+      const smoother = (window as any).ScrollSmoother?.get()
+      if (smoother) {
+        smoother.refresh()
+      }
     }
 
     window.addEventListener('resize', handleResize)
@@ -178,7 +222,6 @@ export default function LatestWork() {
     setExpandedIndex(0)
 
     return () => {
-      clearTimeout(initDelay)
       window.removeEventListener('resize', handleResize)
       ScrollTrigger.removeEventListener('refreshInit', refresh)
       if (scrollTriggerInstance?.scrollTrigger) {
@@ -188,6 +231,11 @@ export default function LatestWork() {
         scrollTriggerInstance.kill()
       }
       ScrollTrigger.refresh()
+      // Refresh ScrollSmoother if it exists
+      const smoother = (window as any).ScrollSmoother?.get()
+      if (smoother) {
+        smoother.refresh()
+      }
     }
   }, [isMobile, projects.length])
 
