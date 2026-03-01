@@ -151,7 +151,7 @@ export default function FlipScroll({ embedded, triggerRef }: FlipScrollProps) {
   const flipContent = (
     <div
       ref={mainRef}
-      className={`flip-scroll-main relative overflow-hidden ${embedded ? 'absolute inset-0 h-full min-h-[420px]' : 'min-h-[800px] h-[100vh]'}`}
+      className={`flip-scroll-main relative overflow-hidden ${embedded ? 'absolute inset-0 h-full min-h-[420px]' : 'min-h-[260vh] h-[260vh] md:min-h-[800px] md:h-[100vh]'}`}
     >
       {/* Floating circle behind - fixed to viewport, reaches screen edges */}
       <div
@@ -257,12 +257,12 @@ export default function FlipScroll({ embedded, triggerRef }: FlipScrollProps) {
       <div
         className={`absolute max-w-[220px] pointer-events-none z-10 transition-all duration-300 ${
           imageIndex === 0
-            ? 'right-[calc(8%+140px+20px)] top-[10%] text-right'
+            ? 'right-[calc(2%+140px+16px)] md:right-[calc(8%+140px+20px)] top-[10%] text-right'
             : imageIndex === 1
-              ? 'left-[calc(12%+140px+20px)] top-[35%] -translate-y-1/2'
+              ? 'left-[calc(2%+140px+16px)] md:left-[calc(12%+140px+20px)] top-[35%] -translate-y-1/2'
               : imageIndex === 2
-                ? 'right-[calc(8%+140px+20px)] top-[60%] -translate-y-1/2 text-right'
-                : 'left-[calc(12%+140px+20px)] top-[85%] -translate-y-1/2'
+                ? 'right-[calc(2%+140px+16px)] md:right-[calc(8%+140px+20px)] top-[60%] -translate-y-1/2 text-right'
+                : 'left-[calc(2%+140px+16px)] md:left-[calc(12%+140px+20px)] top-[85%] -translate-y-1/2'
         }`}
       >
         <div
@@ -310,7 +310,7 @@ export default function FlipScroll({ embedded, triggerRef }: FlipScrollProps) {
 
       {/* Position 1: Orange (Brief) — top right */}
       <div
-        className={`absolute right-[8%] top-[10%] w-[140px] h-[140px] flex items-center justify-center rounded-2xl bg-white shadow-lg shadow-gray-200/40 z-10 transition-all duration-300 border-2 ${
+        className={`absolute right-[2%] md:right-[8%] top-[10%] w-[140px] h-[140px] flex items-center justify-center rounded-2xl bg-white shadow-lg shadow-gray-200/40 z-10 transition-all duration-300 border-2 ${
           imageIndex === 0 ? 'border-amber-500' : 'border-gray-200/80'
         }`}
       >
@@ -345,9 +345,9 @@ export default function FlipScroll({ embedded, triggerRef }: FlipScrollProps) {
         </div>
       </div>
 
-      {/* Position 2: Light blue (Lead) — left column, 35% from top */}
+      {/* Position 2: Light blue (Contract) — left column, 35% from top */}
       <div
-        className={`absolute left-[12%] top-[35%] -translate-y-1/2 w-[140px] h-[140px] flex items-center justify-center rounded-2xl bg-white shadow-lg shadow-gray-200/40 z-10 transition-all duration-300 border-2 ${
+        className={`absolute left-[2%] md:left-[12%] top-[35%] -translate-y-1/2 w-[140px] h-[140px] flex items-center justify-center rounded-2xl bg-white shadow-lg shadow-gray-200/40 z-10 transition-all duration-300 border-2 ${
           imageIndex === 1 ? 'border-sky-400' : 'border-gray-200/80'
         }`}
       >
@@ -368,7 +368,7 @@ export default function FlipScroll({ embedded, triggerRef }: FlipScrollProps) {
 
       {/* Position 3: Blue (Design) — right column, 60% from top */}
       <div
-        className={`absolute right-[8%] top-[60%] -translate-y-1/2 w-[140px] h-[140px] flex items-center justify-center rounded-2xl bg-white shadow-lg shadow-gray-200/40 z-10 transition-all duration-300 border-2 ${
+        className={`absolute right-[2%] md:right-[8%] top-[60%] -translate-y-1/2 w-[140px] h-[140px] flex items-center justify-center rounded-2xl bg-white shadow-lg shadow-gray-200/40 z-10 transition-all duration-300 border-2 ${
           imageIndex === 2 ? 'border-[#2563eb]' : 'border-gray-200/80'
         }`}
       >
@@ -389,7 +389,7 @@ export default function FlipScroll({ embedded, triggerRef }: FlipScrollProps) {
 
       {/* Position 4: Green (Delivery) — same left as box 2, 85% from top (more down) */}
       <div
-        className={`absolute left-[12%] top-[85%] -translate-y-1/2 w-[140px] h-[140px] flex items-center justify-center rounded-2xl bg-white shadow-lg shadow-gray-200/40 z-10 transition-all duration-300 border-2 ${
+        className={`absolute left-[2%] md:left-[12%] top-[85%] -translate-y-1/2 w-[140px] h-[140px] flex items-center justify-center rounded-2xl bg-white shadow-lg shadow-gray-200/40 z-10 transition-all duration-300 border-2 ${
           imageIndex === 3 ? 'border-emerald-500' : 'border-gray-200/80'
         }`}
       >

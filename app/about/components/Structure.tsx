@@ -30,7 +30,7 @@ export default function Structure() {
           </SectionReveal>
         </SectionReveal>
 
-        <div className="relative h-[720px] mt-12 lg:mt-16">
+        <div className="relative h-[1000px] md:h-[720px] mt-12 lg:mt-16">
           <FlipScroll embedded triggerRef={sectionRef} />
         </div>
       </div>

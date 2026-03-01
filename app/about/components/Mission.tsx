@@ -8,8 +8,8 @@ export default function Mission() {
     <section id="mission" className="py-12 sm:py-16 lg:py-20 bg-white overflow-hidden">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="grid lg:grid-cols-2 gap-10 lg:gap-16 items-center">
-          {/* Text on the left */}
-          <div className="space-y-6 order-2 lg:order-1">
+          {/* Text: first on mobile, left on lg */}
+          <div className="space-y-6 order-1 lg:order-1">
             <SectionReveal>
               <span className="text-sm font-semibold text-blue-600 uppercase tracking-wider">
                 Purpose
@@ -27,8 +27,8 @@ export default function Mission() {
               </p>
             </SectionReveal>
           </div>
-          {/* Image on the right */}
-          <SectionReveal delay={0.1} className="relative aspect-[4/3] lg:aspect-[3/2] rounded-2xl overflow-hidden order-1 lg:order-2">
+          {/* Image: second on mobile, right on lg */}
+          <SectionReveal delay={0.1} className="relative aspect-[4/3] lg:aspect-[3/2] rounded-2xl overflow-hidden order-2 lg:order-2">
             <Image
               src="/images/about-us/mission.jpg"
               alt="Our mission"

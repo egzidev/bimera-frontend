@@ -8,8 +8,8 @@ export default function Story() {
     <section id="story" className="py-12 sm:py-16 lg:py-20 bg-white overflow-hidden">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="grid lg:grid-cols-2 gap-10 lg:gap-16 items-center">
-          {/* Image on the left */}
-          <SectionReveal className="relative aspect-[4/3] lg:aspect-[3/2] rounded-2xl overflow-hidden">
+          {/* Image: second on mobile, left on lg */}
+          <SectionReveal className="relative aspect-[4/3] lg:aspect-[3/2] rounded-2xl overflow-hidden order-2 lg:order-1">
             <Image
               src="/images/about-us/started.jpg"
               alt="Where it started"
@@ -18,8 +18,8 @@ export default function Story() {
               sizes="(max-width: 1024px) 100vw, 50vw"
             />
           </SectionReveal>
-          {/* Text on the right */}
-          <div className="space-y-6">
+          {/* Text: first on mobile, right on lg */}
+          <div className="space-y-6 order-1 lg:order-2">
             <SectionReveal>
               <span className="text-sm font-semibold text-blue-600 uppercase tracking-wider">
                 Our story

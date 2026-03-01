@@ -23,7 +23,7 @@ export default function Hero() {
     <section
       ref={heroRef}
       id="about"
-      className="relative pt-24 pb-12 sm:pt-28 sm:pb-16 lg:pt-32 lg:pb-20 overflow-hidden min-h-[500px] lg:min-h-[680px]"
+      className="relative pt-24 pb-12 sm:pt-28 sm:pb-16 lg:pt-32 lg:pb-20 overflow-hidden min-h-screen   lg:min-h-[680px]"
     >
       {/* Full-width hero image */}
       <div className="absolute inset-0 w-full h-full overflow-hidden rounded-b-[2.5rem] lg:rounded-b-[3.5rem]">
