@@ -24,7 +24,7 @@ export default function AboutPage() {
     smootherRef.current = ScrollSmoother.create({
       wrapper: '#smooth-wrapper',
       content: '#smooth-content',
-      smooth: 1.2,
+      smooth: 3,
       effects: true,
       normalizeScroll: true,
       ignoreMobileResize: true,
