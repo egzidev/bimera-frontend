@@ -1,6 +1,7 @@
 'use client'
 
 import Image from 'next/image'
+import Link from 'next/link'
 import type { Project } from '@/lib/projects'
 import SectionReveal from '@/app/about/components/SectionReveal'
 
@@ -14,6 +15,18 @@ export default function ProjectDetailContent({ project }: Props) {
     <section className="pt-24 pb-12 sm:pt-28 sm:pb-16 lg:pt-32 lg:pb-20 bg-white overflow-hidden">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="space-y-6">
+          {/* Back to projects */}
+          <SectionReveal>
+            <Link
+              href="/projects"
+              className="inline-flex items-center gap-2 text-gray-600 hover:text-gray-900 font-medium text-sm transition-colors"
+            >
+              <svg className="w-4 h-4 shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 19l-7-7 7-7" />
+              </svg>
+              Back to projects
+            </Link>
+          </SectionReveal>
           {/* Image */}
           <SectionReveal>
             <div className="relative w-full aspect-[16/9] rounded-2xl overflow-hidden bg-gray-100">
