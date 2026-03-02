@@ -9,32 +9,7 @@ import { ScrollTrigger } from 'gsap/ScrollTrigger'
 
 gsap.registerPlugin(ScrollTrigger)
 
-const projects = [
-  {
-    title: 'Kv Toften',
-    location: 'Uddevalla, Sweden',
-    description: 'This project is an industrial building for which we designed the floor system…',
-    image: '/images/render1.jpg',
-  },
-  {
-    title: 'Götene Badhus',
-    location: 'Götene, Sweden',
-    description: 'This project is an industrial building for which we designed the floor system…',
-    image: '/images/render2.jpg',
-  },
-  {
-    title: 'Kingly Windows',
-    location: 'Pejë, Kosovo',
-    description: 'This project is an industrial building for which we designed the floor system…',
-    image: '/images/render3.jpg',
-  },
-  {
-    title: 'Söderskola',
-    location: 'Halmstad, Sweden',
-    description: 'This project is an industrial building for which we designed the floor system…',
-    image: '/images/render4.webp',
-  },
-]
+import { projects } from '@/lib/projects'
 
 
 export default function LatestWork() {
@@ -276,7 +251,7 @@ export default function LatestWork() {
               Our latest work
             </h2>
             <a
-              href="#projects"
+              href="/projects"
               className="text-blue-600 hover:text-blue-700 font-medium text-sm transition-colors duration-300 inline-flex items-center"
             >
               See all our projects
@@ -298,7 +273,7 @@ export default function LatestWork() {
               Our latest work
             </h2>
             <a
-              href="#projects"
+              href="/projects"
               className="text-blue-600 hover:text-blue-700 font-medium text-sm transition-colors duration-300 inline-flex items-center"
             >
               See all our projects
@@ -314,7 +289,7 @@ export default function LatestWork() {
             >
               {projects.map((project, index) => (
                 <div
-                  key={index}
+                  key={project.id}
                   className="project-wrap relative rounded-2xl overflow-hidden"
                   style={{
                     width: '85vw',
@@ -438,7 +413,7 @@ export default function LatestWork() {
             Our latest work
           </h2>
           <a
-            href="#projects"
+            href="/projects"
             className="text-blue-600 hover:text-blue-700 font-medium transition-colors duration-300 inline-flex items-center"
           >
             See all our projects
@@ -469,7 +444,7 @@ export default function LatestWork() {
 
               return (
                 <motion.div
-                  key={index}
+                  key={project.id}
                   className="relative rounded-2xl overflow-hidden cursor-pointer group h-[580px]"
                   variants={cardVariants}
                   initial={false}

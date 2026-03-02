@@ -8,7 +8,7 @@ import { gsap } from 'gsap'
 
 const navLinks = [
     { href: '#services', label: 'Services' },
-    { href: '#work', label: 'Projects' },
+    { href: '/projects', label: 'Projects' },
     { href: '/about', label: 'About' },
     { href: '#contact', label: 'Contact' },
 ] as const
@@ -148,12 +148,13 @@ export default function Header() {
                             const isHash = href.startsWith('#')
                             const resolvedHref = isAboutPage && isHash ? `/${href}` : href
                             const isHovered = hoveredLink === href
+                            const isCurrent = !isHash && pathname === href
                             return (
                                 <a
                                     key={href}
                                     href={resolvedHref}
                                     className={`relative px-4 py-2 text-sm font-medium group transition-all duration-300 ${
-                                        isHovered
+                                        isCurrent || isHovered
                                             ? 'text-[#004aad] scale-110'
                                             : hoveredLink
                                                 ? 'text-gray-400 opacity-80 blur-[1px]'
@@ -213,7 +214,7 @@ export default function Header() {
                             {navLinks.map(({ href, label }, index) => {
                                 const isHash = href.startsWith('#')
                                 const resolvedHref = isAboutPage && isHash ? `/${href}` : href
-                                const isCurrent = activeNavLink === href
+                                const isCurrent = isHash ? activeNavLink === href : pathname === href
                                 return (
                                     <a
                                         key={href}
