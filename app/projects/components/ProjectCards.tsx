@@ -1,6 +1,7 @@
 'use client'
 
 import Image from 'next/image'
+import Link from 'next/link'
 import { motion, useInView } from 'framer-motion'
 import { useRef } from 'react'
 import { projects } from '@/lib/projects'
@@ -57,6 +58,7 @@ export default function ProjectCards() {
               variants={cardVariants}
               className="group relative rounded-2xl overflow-hidden cursor-pointer h-[420px] sm:h-[480px] lg:h-[520px]"
             >
+              <Link href={`/projects/${project.id}`} className="absolute inset-0 z-0" aria-label={`View ${project.title}`} />
               <div className="absolute inset-0">
                 <div className="relative w-full h-full">
                   <Image
@@ -101,7 +103,7 @@ export default function ProjectCards() {
                 </motion.div>
 
                 <motion.div
-                  className="absolute bottom-6 right-6 sm:bottom-8 sm:right-8"
+                  className="absolute bottom-6 right-6 sm:bottom-8 sm:right-8 z-10"
                   initial={{ opacity: 0, scale: 0 }}
                   animate={isInView ? { opacity: 1, scale: 1 } : { opacity: 0, scale: 0 }}
                   transition={{
@@ -109,13 +111,9 @@ export default function ProjectCards() {
                     delay: 0.3 + index * 0.08,
                   }}
                 >
-                  <motion.button
-                    className="w-12 h-12 rounded-full flex items-center justify-center shadow-xl backdrop-blur-md bg-white/20 border border-white/30"
-                    whileHover={{
-                      scale: 1.1,
-                      backgroundColor: 'rgba(255, 255, 255, 0.3)',
-                    }}
-                    whileTap={{ scale: 0.95 }}
+                  <Link
+                    href={`/projects/${project.id}`}
+                    className="inline-flex items-center justify-center w-12 h-12 rounded-full shadow-xl backdrop-blur-md bg-white/20 border border-white/30 hover:bg-white/30 transition-colors"
                     aria-label={`View ${project.title}`}
                   >
                     <svg
@@ -132,7 +130,7 @@ export default function ProjectCards() {
                         d="M7 17L17 7M17 7H7M17 7V17"
                       />
                     </svg>
-                  </motion.button>
+                  </Link>
                 </motion.div>
               </div>
             </motion.article>

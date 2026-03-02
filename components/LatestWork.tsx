@@ -1,6 +1,7 @@
 'use client'
 
 import Image from 'next/image'
+import Link from 'next/link'
 import { motion, AnimatePresence, useScroll, useTransform } from 'framer-motion'
 import { useInView } from 'framer-motion'
 import { useRef, useState, useEffect } from 'react'
@@ -338,17 +339,18 @@ export default function LatestWork() {
                           <p className="text-white/90 text-lg leading-relaxed">
                             {project.description}
                           </p>
-                          <motion.div
-                            className="absolute bottom-6 right-6"
-                            initial={{ opacity: 0, scale: 0 }}
-                            animate={{ opacity: 1, scale: 1 }}
-                            transition={{ duration: 0.3 }}
-                          >
-                            <motion.button
-                              className="w-12 h-12 rounded-full flex items-center justify-center shadow-xl backdrop-blur-md bg-white/20 border border-white/30"
-                              whileTap={{ scale: 0.95 }}
+                            <motion.div
+                              className="absolute bottom-6 right-6"
+                              initial={{ opacity: 0, scale: 0 }}
+                              animate={{ opacity: 1, scale: 1 }}
+                              transition={{ duration: 0.3 }}
                             >
-                              <svg
+                              <Link
+                                href={`/projects/${project.id}`}
+                                className="w-12 h-12 rounded-full flex items-center justify-center shadow-xl backdrop-blur-md bg-white/20 border border-white/30 hover:bg-white/30 transition-colors"
+                                aria-label={`View ${project.title}`}
+                              >
+                                <svg
                                 className="w-5 h-5 text-white"
                                 fill="none"
                                 stroke="currentColor"
@@ -357,7 +359,7 @@ export default function LatestWork() {
                               >
                                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2.5} d="M7 17L17 7M17 7H7M17 7V17" />
                               </svg>
-                            </motion.button>
+                            </Link>
                           </motion.div>
                         </motion.div>
                       ) : (
@@ -557,24 +559,20 @@ export default function LatestWork() {
                     {/* Circular Navigation Button - Bottom Right - Only show when expanded */}
                     <AnimatePresence>
                       {isExpanded && (
-                        <motion.div
-                          className="absolute bottom-6 right-6"
-                          initial={{ opacity: 0, scale: 0 }}
-                          animate={{ opacity: 1, scale: 1 }}
-                          exit={{ opacity: 0, scale: 0 }}
-                          transition={{ duration: 0.3 }}
-                        >
-                          <motion.button
-                            className="w-12 h-12 rounded-full flex items-center justify-center shadow-xl backdrop-blur-md bg-white/20 border border-white/30"
-                            whileHover={{ scale: 1.1, backgroundColor: 'rgba(255, 255, 255, 0.3)' }}
-                            whileTap={{ scale: 0.95 }}
-                            transition={{ duration: 0.2 }}
-                            onClick={(e) => {
-                              e.stopPropagation()
-                              // Handle navigation
-                            }}
+                          <motion.div
+                            className="absolute bottom-6 right-6"
+                            initial={{ opacity: 0, scale: 0 }}
+                            animate={{ opacity: 1, scale: 1 }}
+                            exit={{ opacity: 0, scale: 0 }}
+                            transition={{ duration: 0.3 }}
                           >
-                            <svg
+                            <Link
+                              href={`/projects/${projects[expandedIndex].id}`}
+                              className="w-12 h-12 rounded-full flex items-center justify-center shadow-xl backdrop-blur-md bg-white/20 border border-white/30 hover:bg-white/30 transition-colors"
+                              aria-label={`View ${projects[expandedIndex].title}`}
+                              onClick={(e) => e.stopPropagation()}
+                            >
+                              <svg
                               className="w-5 h-5 text-white"
                               fill="none"
                               stroke="currentColor"
@@ -585,7 +583,7 @@ export default function LatestWork() {
                             >
                               <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2.5} d="M7 17L17 7M17 7H7M17 7V17" />
                             </svg>
-                          </motion.button>
+                          </Link>
                         </motion.div>
                       )}
                     </AnimatePresence>
