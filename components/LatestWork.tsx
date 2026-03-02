@@ -299,8 +299,13 @@ export default function LatestWork() {
                   }}
                 >
                   <div className="relative w-full rounded-2xl overflow-hidden" style={{ height: 'calc(100vh - 120px)' }}>
+                    <Link
+                      href={`/projects/${project.id}`}
+                      className="absolute inset-0 z-0"
+                      aria-label={`View ${project.title}`}
+                    />
                     {/* Background Image */}
-                    <div className="absolute inset-0">
+                    <div className="absolute inset-0 pointer-events-none">
                       <div className="relative w-full h-full">
                         <Image
                         src={project.image}
@@ -323,7 +328,7 @@ export default function LatestWork() {
                     </div>
 
                     {/* Content */}
-                    <div className="absolute inset-0 flex flex-col justify-end p-6 z-10">
+                    <div className="absolute inset-0 flex flex-col justify-end p-6 pointer-events-none z-10">
                       {activeCardIndex === index ? (
                         <motion.div
                           initial={{ opacity: 0, y: 60 }}
@@ -340,14 +345,14 @@ export default function LatestWork() {
                             {project.description}
                           </p>
                             <motion.div
-                              className="absolute bottom-6 right-6"
+                              className="absolute bottom-6 right-6 pointer-events-auto"
                               initial={{ opacity: 0, scale: 0 }}
                               animate={{ opacity: 1, scale: 1 }}
                               transition={{ duration: 0.3 }}
                             >
                               <Link
                                 href={`/projects/${project.id}`}
-                                className="w-12 h-12 rounded-full flex items-center justify-center shadow-xl backdrop-blur-md bg-white/20 border border-white/30 hover:bg-white/30 transition-colors"
+                                className="w-12 h-12 rounded-full flex items-center justify-center shadow-xl backdrop-blur-md bg-white/20 border border-white/30 hover:bg-white/30 transition-colors pointer-events-auto"
                                 aria-label={`View ${project.title}`}
                               >
                                 <svg
@@ -456,8 +461,13 @@ export default function LatestWork() {
                   transition={{ duration: 0.35, ease: [0.22, 1, 0.36, 1] }}
                   onMouseEnter={() => setExpandedIndex(index)}
                 >
+                  <Link
+                    href={`/projects/${project.id}`}
+                    className="absolute inset-0 z-0"
+                    aria-label={`View ${project.title}`}
+                  />
                   {/* Background Image with darkened filter */}
-                  <div className="absolute inset-0">
+                  <div className="absolute inset-0 pointer-events-none">
                     <div className="relative w-full h-full">
                       <Image
                       src={project.image}
@@ -480,7 +490,7 @@ export default function LatestWork() {
                   </div>
 
                   {/* Content Container */}
-                  <div className="absolute inset-0 flex flex-col justify-end p-6 z-10">
+                  <div className="absolute inset-0 flex flex-col justify-end p-6 z-10 pointer-events-none">
                     {/* White Text Label - Bottom Left */}
                     <div className="mb-4">
                       <AnimatePresence mode="wait">
@@ -560,7 +570,7 @@ export default function LatestWork() {
                     <AnimatePresence>
                       {isExpanded && (
                           <motion.div
-                            className="absolute bottom-6 right-6"
+                            className="absolute bottom-6 right-6 pointer-events-auto"
                             initial={{ opacity: 0, scale: 0 }}
                             animate={{ opacity: 1, scale: 1 }}
                             exit={{ opacity: 0, scale: 0 }}
@@ -568,7 +578,7 @@ export default function LatestWork() {
                           >
                             <Link
                               href={`/projects/${projects[expandedIndex].id}`}
-                              className="w-12 h-12 rounded-full flex items-center justify-center shadow-xl backdrop-blur-md bg-white/20 border border-white/30 hover:bg-white/30 transition-colors"
+                              className="w-12 h-12 rounded-full flex items-center justify-center shadow-xl backdrop-blur-md bg-white/20 border border-white/30 hover:bg-white/30 transition-colors pointer-events-auto"
                               aria-label={`View ${projects[expandedIndex].title}`}
                               onClick={(e) => e.stopPropagation()}
                             >
