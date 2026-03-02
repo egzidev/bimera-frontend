@@ -36,7 +36,7 @@ export default function MoreProjects({ currentProjectId }: Props) {
       id="more-projects"
       className="py-12 sm:py-16 lg:py-20 bg-gray-50/50 overflow-hidden"
     >
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <div className="max-w-container-wide mx-auto px-4 sm:px-6 lg:px-8">
         <div className="flex flex-col sm:flex-row sm:items-end sm:justify-between gap-4 mb-8 lg:mb-10">
           <SectionReveal>
             <span className="text-sm font-semibold text-blue-600 uppercase tracking-wider">

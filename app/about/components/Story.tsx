@@ -6,7 +6,7 @@ import SectionReveal from './SectionReveal'
 export default function Story() {
   return (
     <section id="story" className="py-12 sm:py-16 lg:py-20 bg-white overflow-hidden">
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <div className="max-w-container-wide mx-auto px-4 sm:px-6 lg:px-8">
         <div className="grid lg:grid-cols-2 gap-10 lg:gap-16 items-center">
           {/* Image: second on mobile, left on lg */}
           <SectionReveal className="relative aspect-[4/3] lg:aspect-[3/2] rounded-2xl overflow-hidden order-2 lg:order-1">

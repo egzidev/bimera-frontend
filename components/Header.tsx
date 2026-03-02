@@ -113,7 +113,7 @@ export default function Header() {
                 : 'bg-white/60 backdrop-blur-lg border-b border-white/20'
                 }`}
         >
-            <nav className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <nav className="max-w-container-wide mx-auto px-4 sm:px-6 lg:px-8">
                 <div className="flex justify-between items-center h-16 md:h-20">
                     {/* Logo on the left — first on landing */}
                     <motion.div

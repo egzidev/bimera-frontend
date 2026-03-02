@@ -33,7 +33,7 @@ export default function ProjectCards() {
       id="projects-grid"
       className="py-12 sm:py-16 lg:py-20 bg-white overflow-hidden"
     >
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <div className="max-w-container-wide mx-auto px-4 sm:px-6 lg:px-8">
         <SectionReveal>
           <span className="text-sm font-semibold text-blue-600 uppercase tracking-wider">
             Portfolio

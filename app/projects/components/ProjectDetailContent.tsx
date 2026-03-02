@@ -13,7 +13,7 @@ export default function ProjectDetailContent({ project }: Props) {
 
   return (
     <section className="pt-24 pb-12 sm:pt-28 sm:pb-16 lg:pt-32 lg:pb-20 bg-white overflow-hidden">
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <div className="max-w-container-wide mx-auto px-4 sm:px-6 lg:px-8">
         <div className="space-y-6">
           {/* Back to projects */}
           <SectionReveal>

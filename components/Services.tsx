@@ -445,7 +445,7 @@ export default function Services() {
               boxShadow: 'inset 0 1px 0 rgba(255,255,255,0.04)',
             }}
           />
-          <div className="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+          <div className="relative z-10 max-w-container-wide mx-auto px-4 sm:px-6 lg:px-8">
             <div className="flex items-end justify-between mb-14">
           <h2
             className={`text-4xl md:text-5xl font-medium text-gray-900 transition-all duration-800 ${isVisible

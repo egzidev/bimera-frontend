@@ -246,7 +246,7 @@ export default function LatestWork() {
        {/* Mobile: Our latest work title — moves with scroll (parallax) */}
        <motion.div
          style={{ y: latestWorkTitleY }}
-         className="max-w-7xl mx-auto px-4 sm:px-6 pt-12 pb-6"
+         className="max-w-container-wide mx-auto px-4 sm:px-6 pt-12 pb-6"
        >
             <h2 className="text-3xl font-medium text-gray-900 mb-2">
               Our latest work
@@ -269,7 +269,7 @@ export default function LatestWork() {
       >
         <div className="w-full" style={{ paddingBottom: '40px' }}>
           {/* Mobile: Our latest work title */}
-          <div className="max-w-7xl mx-auto px-4 sm:px-6 pt-12 pb-6 hidden lg:block">
+          <div className="max-w-container-wide mx-auto px-4 sm:px-6 pt-12 pb-6 hidden lg:block">
             <h2 className="text-3xl font-medium text-gray-900 mb-2">
               Our latest work
             </h2>
@@ -408,7 +408,7 @@ export default function LatestWork() {
         className="absolute left-0 right-0 h-px opacity-0 pointer-events-none -z-10"
         style={{ top: 0 }}
       />
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <div className="max-w-container-wide mx-auto px-4 sm:px-6 lg:px-8">
         {/* Header with title and link */}
         <motion.div
           className="flex flex-col md:flex-row md:items-center md:justify-between mb-12"

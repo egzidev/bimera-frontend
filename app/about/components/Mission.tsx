@@ -6,7 +6,7 @@ import SectionReveal from './SectionReveal'
 export default function Mission() {
   return (
     <section id="mission" className="py-12 sm:py-16 lg:py-20 bg-white overflow-hidden">
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <div className="max-w-container-wide mx-auto px-4 sm:px-6 lg:px-8">
         <div className="grid lg:grid-cols-2 gap-10 lg:gap-16 items-center">
           {/* Text: first on mobile, left on lg */}
           <div className="space-y-6 order-1 lg:order-1">

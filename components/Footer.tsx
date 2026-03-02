@@ -29,7 +29,7 @@ export default function Footer() {
       />
 
       <motion.div
-        className="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8"
+        className="relative z-10 max-w-container-wide mx-auto px-4 sm:px-6 lg:px-8"
         style={{ opacity: contentOpacity }}
       >
         <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4 py-6 pt-14 sm:pt-16">

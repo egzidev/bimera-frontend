@@ -64,7 +64,7 @@ export default function Hero() {
       transition={{ duration: 0.9, delay: 0.9, ease: [0.22, 1, 0.36, 1] }}
       onAnimationComplete={() => setHeroRevealed(true)}
     >
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <div className="max-w-container-wide mx-auto px-4 sm:px-6 lg:px-8">
         
 
         {/* Video Section with Title Overlay */}

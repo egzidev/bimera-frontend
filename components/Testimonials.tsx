@@ -57,7 +57,7 @@ export default function Testimonials() {
 
   return (
     <section ref={sectionRef} className="pb-16 pt-8 sm:pb-20 sm:pt-10 md:pb-32 md:pt-20 bg-white overflow-hidden">
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <div className="max-w-container-wide mx-auto px-4 sm:px-6 lg:px-8">
         <div className="grid lg:grid-cols-2 gap-20 sm:gap-12 lg:gap-20 items-center">
           {/* Left: Question */}
           <motion.div

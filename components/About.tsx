@@ -104,7 +104,7 @@ export default function About() {
 
   return (
     <section id="about" className="py-12 sm:py-16 lg:py-20 bg-white overflow-hidden">
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <div className="max-w-container-wide mx-auto px-4 sm:px-6 lg:px-8">
         <div className="grid lg:grid-cols-2 gap-8 sm:gap-6 lg:gap-8">
           {/* Left Card - Dark Blue with Quality Stats */}
           <div className="z-10 bg-[#004AAD] rounded-2xl p-5 sm:p-6 md:p-8 lg:p-10 flex flex-col justify-between shadow-xl sm:shadow-2xl">

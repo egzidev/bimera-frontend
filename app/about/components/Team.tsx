@@ -171,7 +171,7 @@ export default function Team() {
       ref={sectionRef}
       className="min-h-screen md:min-h-0 py-12 sm:py-16 lg:py-20 bg-[#003d8a] overflow-hidden flex flex-col justify-center md:flex-none md:justify-start"
     >
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 w-full">
+      <div className="max-w-container-wide mx-auto px-4 sm:px-6 lg:px-8 w-full">
         <SectionReveal className="mb-6 md:mb-10">
           <span className="text-sm font-semibold text-blue-300 uppercase tracking-wider">
             People
