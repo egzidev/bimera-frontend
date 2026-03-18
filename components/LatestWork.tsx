@@ -67,11 +67,17 @@ export default function LatestWork() {
 
     function refresh() {
       pinWrapWidth = pinWrap.scrollWidth
-      horizontalScrollLength = pinWrapWidth - window.innerWidth
+      // Use the actual viewport width of the wrapper (not window.innerWidth),
+      // since this component has internal padding/centering that can differ.
+      horizontalScrollLength = pinWrapWidth - wrapper.clientWidth
       
       // Update ScrollTrigger end value if it exists
       if (scrollTriggerInstance?.scrollTrigger) {
-        scrollTriggerInstance.scrollTrigger.vars.end = `+=${pinWrapWidth}`
+        scrollTriggerInstance.scrollTrigger.vars.end = `+=${Math.max(horizontalScrollLength, 0)}`
+        // Keep the tween's horizontal distance in sync with refreshed measurements.
+        // (In some cases GSAP may snapshot initial values; invalidate forces re-evaluation.)
+        ;(scrollTriggerInstance.vars as any).x = () => -horizontalScrollLength
+        scrollTriggerInstance.invalidate()
       }
     }
 
@@ -86,8 +92,9 @@ export default function LatestWork() {
           trigger: wrapper,
           pin: wrapper,
           pinSpacing: true,
-          start: 'center center',
-          end: () => `+=${pinWrapWidth}`,
+          start: 'top top',
+          // Drive horizontal distance using the computed max overflow.
+          end: () => `+=${Math.max(horizontalScrollLength, 0)}`,
           invalidateOnRefresh: true,
           onUpdate: (self) => {
             // Calculate active card based on scroll progress
@@ -287,6 +294,8 @@ export default function LatestWork() {
             <div
               ref={galleryStripRef}
               className="horiz-gallery-strip flex flex-nowrap will-change-transform relative"
+              // Ensure scrollWidth reflects the full horizontal content width.
+              style={{ width: 'max-content' }}
             >
               {projects.map((project, index) => (
                 <div

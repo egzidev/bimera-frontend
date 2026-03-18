@@ -3,7 +3,7 @@
 @tailwind utilities;
 
 * {
-  scroll-behavior: smooth;
+  scroll-behavior: auto;
 }
 
 body {
@@ -15,20 +15,16 @@ body {
 
 /* ScrollSmoother wrapper and content */
 #smooth-wrapper {
-  overflow: hidden;
-  position: fixed;
-  height: 100%;
+  overflow: visible;
+  position: static;
+  height: auto;
   width: 100%;
-  top: 0;
-  left: 0;
-  right: 0;
-  bottom: 0;
 }
 
 #smooth-content {
   overflow: visible;
   width: 100%;
-  will-change: transform;
+  will-change: auto;
 }
 
 @keyframes shimmer {

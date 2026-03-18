@@ -177,12 +177,13 @@ export default function Header() {
 
                     {/* Mobile menu button — same delay as nav */}
                     <motion.div
-                        className="lg:hidden"
+                        className="lg:hidden flex items-center gap-0"
                         initial={{ opacity: 0, y: -8 }}
                         animate={{ opacity: 1, y: 0 }}
                         transition={{ duration: 0.8, delay: 0.5, ease: [0.22, 1, 0.36, 1] }}
                     >
-                    <button
+                        <LanguageSwitcher />
+                        <button
                         className="lg:hidden p-2 text-gray-700 hover:text-gray-900 transition-colors"
                         onClick={() => setIsMenuOpen(!isMenuOpen)}
                         aria-label="Toggle menu"
@@ -240,9 +241,6 @@ export default function Header() {
                                 )
                             })}
                         </nav>
-                        <div className="mt-10">
-                            <LanguageSwitcher />
-                        </div>
                     </div>
                 </div>
             </nav>

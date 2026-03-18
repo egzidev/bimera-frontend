@@ -1,11 +1,10 @@
 'use client'
 
-import { useRef, useState, useEffect } from 'react'
+import { useRef, useState } from 'react'
 import { gsap } from 'gsap'
 import { ScrollTrigger } from 'gsap/ScrollTrigger'
-import { ScrollSmoother } from 'gsap/ScrollSmoother'
 
-gsap.registerPlugin(ScrollTrigger, ScrollSmoother)
+gsap.registerPlugin(ScrollTrigger)
 import Header from '@/components/Header'
 import Hero from '@/components/Hero'
 import Services from '@/components/Services'
@@ -19,31 +18,6 @@ import Welcome from '@/components/Welcome'
 export default function Home() {
   const [showWelcome, setShowWelcome] = useState(true)
   const mainRef = useRef<HTMLElement>(null)
-  const smootherRef = useRef<ScrollSmoother | null>(null)
-
-  // Initialize ScrollSmoother
-  useEffect(() => {
-    if (typeof window === 'undefined') return
-
-    const isMobile = window.matchMedia('(max-width: 767px)').matches
-
-    // Create ScrollSmoother FIRST, before any ScrollTriggers
-    smootherRef.current = ScrollSmoother.create({
-      wrapper: '#smooth-wrapper',
-      content: '#smooth-content',
-      smooth: isMobile ? 0 : 1.2,
-      effects: !isMobile,
-      normalizeScroll: true,
-      ignoreMobileResize: true,
-    })
-
-    return () => {
-      if (smootherRef.current) {
-        smootherRef.current.kill()
-        smootherRef.current = null
-      }
-    }
-  }, [])
 
   const handleWelcomeComplete = () => {
     setShowWelcome(false)
@@ -66,9 +40,6 @@ export default function Home() {
             }
             // Refresh ScrollTrigger and ScrollSmoother after animation completes
             ScrollTrigger.refresh()
-            if (smootherRef.current) {
-              smootherRef.current.refresh()
-            }
           }
         }
       )

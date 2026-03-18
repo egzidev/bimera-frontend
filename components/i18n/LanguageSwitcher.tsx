@@ -54,14 +54,14 @@ export default function LanguageSwitcher() {
       <button
         type="button"
         onClick={() => setIsOpen((v) => !v)}
-        className="inline-flex items-center gap-2 px-3 py-1.5 text-xs font-semibold rounded-full border border-gray-200 bg-white/70 hover:bg-white transition-colors"
+        className="inline-flex items-center mt-[4px] gap-1 p-2 pr-1.5 lg:p-0 text-xs font-semibold rounded-none bg-transparent hover:bg-transparent transition-colors shadow-none focus:shadow-none focus:ring-0"
         aria-label="Change language"
         aria-haspopup="listbox"
         aria-expanded={isOpen}
       >
         {/* Globe icon */}
         <svg
-          className="w-4 h-4 text-gray-700"
+          className="w-6 h-6 text-gray-700"
           viewBox="0 0 24 24"
           fill="none"
           stroke="currentColor"
@@ -74,9 +74,9 @@ export default function LanguageSwitcher() {
           <path d="M2 12h20" />
           <path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z" />
         </svg>
-        <span>{locale === 'sv' ? 'SV' : 'EN'}</span>
+        <span className="hidden lg:inline">{locale === 'sv' ? 'SV' : 'EN'}</span>
         {/* caret */}
-        <svg className="w-4 h-4 text-gray-700" viewBox="0 0 20 20" fill="currentColor" aria-hidden>
+        <svg className="w-5 h-5 text-gray-700" viewBox="0 0 20 20" fill="currentColor" aria-hidden>
           <path
             fillRule="evenodd"
             d="M5.23 7.21a.75.75 0 0 1 1.06.02L10 10.94l3.71-3.71a.75.75 0 1 1 1.08 1.04l-4.25 4.25a.75.75 0 0 1-1.06 0L5.21 8.27a.75.75 0 0 1 .02-1.06Z"
