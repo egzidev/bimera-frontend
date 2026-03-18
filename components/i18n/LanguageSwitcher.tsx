@@ -54,7 +54,7 @@ export default function LanguageSwitcher() {
       <button
         type="button"
         onClick={() => setIsOpen((v) => !v)}
-        className="inline-flex items-center mt-[4px] gap-1 p-2 pr-1.5 lg:p-0 text-xs font-semibold rounded-none bg-transparent hover:bg-transparent transition-colors shadow-none focus:shadow-none focus:ring-0"
+        className="inline-flex items-center md:mt-[4px] mt-0 gap-1 p-2 pr-1.5 lg:p-0 text-xs font-semibold rounded-none bg-transparent hover:bg-transparent transition-colors shadow-none focus:shadow-none focus:ring-0"
         aria-label="Change language"
         aria-haspopup="listbox"
         aria-expanded={isOpen}
