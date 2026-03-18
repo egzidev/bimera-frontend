@@ -3,15 +3,21 @@
 import { motion } from 'framer-motion'
 import { useState, useRef, useCallback } from 'react'
 
-const GLASS_R = 70
+import { useT } from '@/components/i18n/useT'
 
-const heroLines = ['Smart structural design', 'for efficient and', 'buildable projects']
-const heroLinesSv = ['Smart strukturell design', 'för effektivt och', 'byggbara projekt']
+const GLASS_R = 70
 
 export default function Hero() {
   const [heroRevealed, setHeroRevealed] = useState(false)
   const [glass, setGlass] = useState<{ x: number; y: number; w: number; h: number } | null>(null)
   const titleRef = useRef<HTMLDivElement>(null)
+  const t = useT()
+
+  const heroLines = [
+    t('homepage.hero.line1'),
+    t('homepage.hero.line2'),
+    t('homepage.hero.line3'),
+  ]
 
   const handleMouseMove = useCallback(
     (e: React.MouseEvent<HTMLDivElement>) => {
@@ -156,7 +162,7 @@ export default function Hero() {
                           className="hero-glass-title text-4xl md:text-5xl lg:text-6xl xl:text-7xl font-light text-white leading-tight tracking-tight"
                           aria-hidden
                         >
-                        {heroLinesSv.map((line, lineIndex) => (
+                        {heroLines.map((line, lineIndex) => (
                           <span key={lineIndex} className="block">
                             {line.split(' ').map((word, i) => (
                               <span

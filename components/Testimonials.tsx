@@ -4,15 +4,18 @@ import Image from 'next/image'
 import { motion, useScroll, useTransform } from 'framer-motion'
 import { useInView } from 'framer-motion'
 import { useRef, useState, useEffect } from 'react'
-
-const testimonial = {
-  quote: 'Bimera has extensive experience in modeling prefab frames and producing production documents for concrete and steel elements.',
-  author: 'Joakim Lindskog',
-  role: 'CEO, Prodesign AB',
-  image: '/images/testimonials/joakim-lindskog.jpg',
-}
+import { useT } from '@/components/i18n/useT'
 
 export default function Testimonials() {
+  const t = useT()
+
+  const testimonial = {
+    quote: t('homepage.testimonials.items.joakim.quote'),
+    author: t('homepage.testimonials.items.joakim.author'),
+    role: t('homepage.testimonials.items.joakim.role'),
+    image: '/images/testimonials/joakim-lindskog.jpg',
+  }
+
   const sectionRef = useRef<HTMLElement>(null)
   const questionRef = useRef<HTMLDivElement>(null)
   const cardRef = useRef<HTMLDivElement>(null)
@@ -74,9 +77,18 @@ export default function Testimonials() {
               animate={isInView ? { opacity: 1, x: 0 } : { opacity: 0, x: -30 }}
               transition={{ duration: 0.8, ease: [0.22, 1, 0.36, 1] }}
             >
-              What our clients and partners
-              <br />
-              say about us?
+              {(() => {
+                const q = t('homepage.testimonials.question')
+                const parts = q.split('\n')
+                if (parts.length === 1) return parts[0]
+                return (
+                  <>
+                    {parts[0]}
+                    <br />
+                    {parts.slice(1).join('\n')}
+                  </>
+                )
+              })()}
             </motion.h2>
           </motion.div>
 

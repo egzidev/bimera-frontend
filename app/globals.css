@@ -107,6 +107,10 @@ body {
 
 /* Horizontal scrolling gallery styles */
 @media (max-width: 767px) {
+  * {
+    scroll-behavior: auto;
+  }
+
   body {
     overflow-x: hidden;
   }

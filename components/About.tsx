@@ -3,6 +3,7 @@
 import Image from 'next/image'
 import { useEffect, useState, useRef } from 'react'
 import { motion, useMotionValue, useSpring, useTransform, useInView } from 'framer-motion'
+import { useT } from '@/components/i18n/useT'
 
 // Animated Number Component using MotionValue
 function AnimatedNumber({ value, suffix = '', decimals = 0 }: { value: number; suffix?: string; decimals?: number }) {
@@ -53,6 +54,7 @@ export default function About() {
   const cardRef = useRef<HTMLDivElement>(null)
   const imageRef = useRef<HTMLDivElement>(null)
   const statsRef = useRef<HTMLDivElement>(null)
+  const t = useT()
   const statsInView = useInView(statsRef, { once: true, amount: 0.5 })
 
   useEffect(() => {
@@ -111,7 +113,7 @@ export default function About() {
             {/* Quality Promise Text */}
             <div className="text-white mb-4 sm:mb-6">
               <p className="text-base sm:text-lg md:text-xl leading-relaxed font-medium">
-                Quality is our promise, therefore we are transparent about meeting quality standards
+                {t('homepage.quality.promise')}
               </p>
             </div>
 
@@ -124,7 +126,7 @@ export default function About() {
                   )}
                   {!statsInView && <span>0 h</span>}
                 </div>
-                <div className="text-xs sm:text-sm md:text-base text-blue-200 font-medium">Hours worked this year</div>
+                <div className="text-xs sm:text-sm md:text-base text-blue-200 font-medium">{t('homepage.quality.hoursWorkedLabel')}</div>
               </div>
               <div>
                 <div className="text-3xl sm:text-4xl md:text-5xl font-bold text-white mb-1 sm:mb-2">
@@ -133,7 +135,12 @@ export default function About() {
                   )}
                   {!statsInView && <span>0.0%</span>}
                 </div>
-                <div className="text-xs sm:text-sm md:text-base text-blue-200 font-medium">Deviation Index</div>
+                <div
+                  className="text-xs sm:text-sm md:text-base text-blue-200 font-medium"
+                  title={t('homepage.quality.deviationIndexTooltip')}
+                >
+                  {t('homepage.quality.deviationIndexLabel')}
+                </div>
               </div>
             </div>
           </div>
@@ -193,7 +200,7 @@ export default function About() {
                     style={{ transitionDelay: '100ms' }}
                   >
                     <span className="text-sm md:text-base font-semibold text-blue-600 uppercase tracking-wider">
-                      About Us
+                      {t('homepage.aboutUsCard.smallLabel')}
                     </span>
                   </div>
 
@@ -210,7 +217,7 @@ export default function About() {
                       backgroundClip: 'text'
                     }}
                   >
-                    Who We Are
+                    {t('homepage.aboutUsCard.heading')}
                   </h2>
 
                   <p
@@ -220,7 +227,7 @@ export default function About() {
                       }`}
                     style={{ transitionDelay: '400ms' }}
                   >
-                    We are a structural engineering consultancy headquarterd in Sweden.
+                    {t('homepage.aboutUsCard.description')}
                   </p>
                 </div>
 
@@ -241,7 +248,7 @@ export default function About() {
                     }}
                   >
                     <span className="relative z-10 flex items-center group-hover/btn:opacity-0 transition-opacity duration-300">
-                      Learn More
+                      {t('homepage.aboutUsCard.learnMore')}
                       <svg
                         className="ml-2 w-5 h-5 group-hover/btn:translate-x-1 transition-transform duration-300"
                         fill="none"
@@ -253,7 +260,7 @@ export default function About() {
                     </span>
                     <div className="absolute inset-0 bg-blue-600 transform scale-x-0 group-hover/btn:scale-x-100 transition-transform duration-300 origin-left"></div>
                     <span className="absolute inset-0 flex items-center justify-center text-white group-hover/btn:opacity-100 opacity-0 transition-opacity duration-300 z-20">
-                      Learn More
+                      {t('homepage.aboutUsCard.learnMore')}
                       <svg
                         className="ml-2 w-5 h-5"
                         fill="none"

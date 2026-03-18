@@ -13,6 +13,8 @@ export type Project = {
   /** Quick facts shown on the detail page (e.g. Client, Year, Scope) */
   quickFacts?: QuickFact[]
   image: string
+  /** Optional set of images shown in the project detail page gallery */
+  galleryImages?: string[]
 }
 
 export const projects: Project[] = [
@@ -30,7 +32,17 @@ export const projects: Project[] = [
       { label: 'Scope', value: 'Floor system design' },
       { label: 'Status', value: 'Completed' },
     ],
-    image: '/images/render1.jpg',
+    image: '/images/projects/kv-koften/1.jpg',
+    galleryImages: [
+      '/images/projects/kv-koften/1.jpg',
+      '/images/projects/kv-koften/2.png',
+      '/images/projects/kv-koften/3.png',
+      '/images/projects/kv-koften/4.jpg',
+      '/images/projects/kv-koften/5.png',
+      '/images/projects/kv-koften/6.jpg',
+      '/images/projects/kv-koften/7.jpg',
+      '/images/projects/kv-koften/8.jpg',
+    ],
   },
   {
     id: 'gotene-badhus',

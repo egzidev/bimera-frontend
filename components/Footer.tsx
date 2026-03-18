@@ -3,9 +3,11 @@
 import { useRef } from 'react'
 import Image from 'next/image'
 import { motion, useScroll, useTransform } from 'framer-motion'
+import { useT } from '@/components/i18n/useT'
 
 export default function Footer() {
   const footerRef = useRef<HTMLElement>(null)
+  const t = useT()
 
   const { scrollYProgress } = useScroll({
     target: footerRef,
@@ -44,7 +46,7 @@ export default function Footer() {
               />
             </a>
             <span className="text-gray-400 text-sm hidden sm:inline">
-              Smart structural design for efficient and buildable projects.
+              {t('footer.tagline')}
             </span>
           </div>
           <div className="text-gray-400 text-sm space-y-0.5 sm:text-right">
@@ -58,10 +60,10 @@ export default function Footer() {
         </div>
         <div className="flex flex-wrap items-center justify-center sm:justify-between gap-2 pt-4 border-t border-gray-800 text-gray-500 text-xs sm:text-sm">
           <nav className="flex gap-4">
-            <a href="#services" className="hover:text-white transition-colors">Services</a>
-            <a href="#work" className="hover:text-white transition-colors">Projects</a>
-            <a href="/about" className="hover:text-white transition-colors">About</a>
-            <a href="#contact" className="hover:text-white transition-colors">Contact</a>
+            <a href="#services" className="hover:text-white transition-colors">{t('footer.nav.services')}</a>
+            <a href="#work" className="hover:text-white transition-colors">{t('footer.nav.projects')}</a>
+            <a href="/about" className="hover:text-white transition-colors">{t('footer.nav.about')}</a>
+            <a href="#contact" className="hover:text-white transition-colors">{t('footer.nav.contact')}</a>
           </nav>
           <p>© 2026 Bimera. All rights reserved.</p>
         </div>

@@ -4,48 +4,48 @@ import { useEffect, useState, useRef } from 'react'
 import { motion, useScroll, useTransform, useSpring } from 'framer-motion'
 import { gsap } from 'gsap'
 import { ScrollTrigger } from 'gsap/ScrollTrigger'
+import { useT } from '@/components/i18n/useT'
 
 gsap.registerPlugin(ScrollTrigger)
 
-const services = [
-  {
-    title: 'Structural Calculations',
-    description: 'We ensure that your structure can endure all external forces by delivering a robust design that complies with Eurocode standards.',
-  },
-  {
-    title: 'BIM Management',
-    description: 'We transform traditional management into building information modeling, guaranteeing that every detail is accounted for from start to finish.',
-  },
-  {
-    title: 'Structural Drawings',
-    description: 'Your project deserves clear and easy-to-read drawings that capture every detail, and that is precisely what we offer.',
-  },
-]
+type ServiceItem = {
+  title: string
+  description: string
+}
 
-const materials = [
+type MaterialItem = {
+  title: string
+  image: string
+  description: string
+  overlayColor: string
+}
+
+type MaterialBase = {
+  key: 'precastFrames' | 'steelFrames' | 'inSituFrames' | 'timberComposite'
+  image: string
+  overlayColor: string
+}
+
+const materialsBase: MaterialBase[] = [
   {
-    title: 'Precast Frames',
+    key: 'precastFrames',
     image: '/images/services/precast.png',
-    description: 'Efficient and cost-effective structural solutions with precast concrete frames. Perfect for rapid construction and consistent quality.',
-    overlayColor: 'bg-blue-400/30' // Light blue overlay
+    overlayColor: 'bg-blue-400/30', // Light blue overlay
   },
   {
-    title: 'Steel Frames',
+    key: 'steelFrames',
     image: '/images/services/steel.png',
-    description: 'Strong and versatile steel frame structures for modern construction. Ideal for large spans and flexible design requirements.',
-    overlayColor: 'bg-transparent' // No overlay when active
+    overlayColor: 'bg-transparent', // No overlay when active
   },
   {
-    title: 'In-situ Frames',
+    key: 'inSituFrames',
     image: '/images/services/in-situ.png',
-    description: 'Custom concrete frames built on-site for maximum design flexibility. Tailored solutions for unique architectural requirements.',
-    overlayColor: 'bg-slate-700/40' // Dark blue-grey overlay
+    overlayColor: 'bg-slate-700/40', // Dark blue-grey overlay
   },
   {
-    title: 'Timber and Composite',
+    key: 'timberComposite',
     image: '/images/services/timber-and-composite.png',
-    description: 'Sustainable timber and composite material solutions for eco-friendly construction. Combining natural beauty with modern engineering.',
-    overlayColor: 'bg-orange-900/30' // Warm brown/orange overlay
+    overlayColor: 'bg-orange-900/30', // Warm brown/orange overlay
   },
 ]
 
@@ -55,7 +55,7 @@ function MobileMaterialSection({
   index,
   isMobile,
 }: {
-  material: typeof materials[0]
+  material: MaterialItem
   index: number
   isMobile: boolean
 }) {
@@ -154,7 +154,7 @@ function MaterialCard({
   onMouseEnter,
   sectionRef,
 }: {
-  material: typeof materials[0]
+  material: MaterialItem
   index: number
   isActive: boolean
   activeMaterial: number
@@ -258,6 +258,7 @@ function MaterialCard({
 }
 
 export default function Services() {
+  const t = useT()
   const [isVisible, setIsVisible] = useState(false)
   const [activeMaterial, setActiveMaterial] = useState<number>(0) // First card active by default
   const [hasInteracted, setHasInteracted] = useState(false) // Track if user has hovered
@@ -268,6 +269,28 @@ export default function Services() {
   const materialsRef = useRef<HTMLDivElement>(null)
   const sectionRef = useRef<HTMLElement>(null)
   const arrowBtnRefs = useRef<(HTMLDivElement | null)[]>([])
+
+  const services: ServiceItem[] = [
+    {
+      title: t('homepage.services.items.structuralCalculations.title'),
+      description: t('homepage.services.items.structuralCalculations.description'),
+    },
+    {
+      title: t('homepage.services.items.bimManagement.title'),
+      description: t('homepage.services.items.bimManagement.description'),
+    },
+    {
+      title: t('homepage.services.items.structuralDrawings.title'),
+      description: t('homepage.services.items.structuralDrawings.description'),
+    },
+  ]
+
+  const materials: MaterialItem[] = materialsBase.map((m) => ({
+    title: t(`homepage.services.materials.${m.key}.title`),
+    description: t(`homepage.services.materials.${m.key}.description`),
+    image: m.image,
+    overlayColor: m.overlayColor,
+  }))
 
   // Check if mobile on mount and resize
   useEffect(() => {
@@ -453,7 +476,7 @@ export default function Services() {
               : 'opacity-0 translate-y-10'
               }`}
           >
-            Our Services
+            {t('homepage.services.heading')}
           </h2>
           <p
             className={`text-gray-600 text-lg transition-all duration-1000 max-w-2xl ${isVisible
@@ -462,7 +485,7 @@ export default function Services() {
               }`}
             style={{ transitionDelay: '100ms' }}
           >
-            Our team specializes in all types of structural frames and materials.
+            {t('homepage.services.lead')}
           </p>
           </div>
           <div className="grid lg:grid-cols-2 gap-12 lg:gap-16">

@@ -4,6 +4,7 @@ import { useEffect, useRef, useState, type RefObject } from 'react'
 import Image from 'next/image'
 import { gsap } from 'gsap'
 import { ScrollTrigger } from 'gsap/ScrollTrigger'
+import { useT } from '@/components/i18n/useT'
 
 gsap.registerPlugin(ScrollTrigger)
 
@@ -69,6 +70,7 @@ export default function FlipScroll({ embedded, triggerRef }: FlipScrollProps) {
   const path4Ref = useRef<SVGPathElement>(null)
   const [headPosition, setHeadPosition] = useState({ x: 86, y: 19 })
   const ctxRef = useRef<gsap.Context | null>(null)
+  const t = useT()
 
   useEffect(() => {
     if (typeof window === 'undefined' || !mainRef.current || !boxRef.current || !secondMarkerRef.current || !thirdMarkerRef.current || !fourthMarkerRef.current) return
@@ -289,21 +291,21 @@ export default function FlipScroll({ embedded, triggerRef }: FlipScrollProps) {
             }`}
           >
             {imageIndex === 0
-              ? 'Brief'
+              ? t('aboutPage.flipScroll.stepBrief.label')
               : imageIndex === 1
-                ? 'Contract'
+                ? t('aboutPage.flipScroll.stepContract.label')
                 : imageIndex === 2
-                  ? 'Design'
-                  : 'Delivery'}
+                  ? t('aboutPage.flipScroll.stepDesign.label')
+                  : t('aboutPage.flipScroll.stepDelivery.label')}
           </p>
           <p className="text-sm text-gray-700 leading-snug">
             {imageIndex === 0
-              ? 'Your project starts here. We take your brief and align scope, timeline and deliverables with you.'
+              ? t('aboutPage.flipScroll.stepBrief.paragraph')
               : imageIndex === 1
-                ? 'Client relations, contracts, project management & structural calculations in line with Swedish and EU regulations.'
+                ? t('aboutPage.flipScroll.stepContract.paragraph')
                 : imageIndex === 2
-                  ? 'Detailed drawings and BIM models using the same documented workflows and technical standards.'
-                  : 'Thorough quality control, so we ensure no errors follow on construction site, and project is delivered to the client.'}
+                  ? t('aboutPage.flipScroll.stepDesign.paragraph')
+                  : t('aboutPage.flipScroll.stepDelivery.paragraph')}
           </p>
         </div>
       </div>
@@ -319,7 +321,7 @@ export default function FlipScroll({ embedded, triggerRef }: FlipScrollProps) {
             <svg className="h-2.5 w-2.5" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2.5}>
               <path strokeLinecap="round" strokeLinejoin="round" d="M5 13l4 4L19 7" />
             </svg>
-            Brief
+            {t('aboutPage.flipScroll.stepBrief.label')}
           </span>
         )}
       </div>
@@ -361,7 +363,7 @@ export default function FlipScroll({ embedded, triggerRef }: FlipScrollProps) {
             <svg className="h-2.5 w-2.5" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2.5}>
               <path strokeLinecap="round" strokeLinejoin="round" d="M5 13l4 4L19 7" />
             </svg>
-            Contract
+            {t('aboutPage.flipScroll.stepContract.label')}
           </span>
         )}
       </div>
@@ -382,7 +384,7 @@ export default function FlipScroll({ embedded, triggerRef }: FlipScrollProps) {
             <svg className="h-2.5 w-2.5" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2.5}>
               <path strokeLinecap="round" strokeLinejoin="round" d="M5 13l4 4L19 7" />
             </svg>
-            Design
+            {t('aboutPage.flipScroll.stepDesign.label')}
           </span>
         )}
       </div>
@@ -403,7 +405,7 @@ export default function FlipScroll({ embedded, triggerRef }: FlipScrollProps) {
             <svg className="h-2.5 w-2.5" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2.5}>
               <path strokeLinecap="round" strokeLinejoin="round" d="M5 13l4 4L19 7" />
             </svg>
-            Delivery
+            {t('aboutPage.flipScroll.stepDelivery.label')}
           </span>
         )}
       </div>

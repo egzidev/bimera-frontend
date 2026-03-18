@@ -18,11 +18,13 @@ export default function ProjectsPage() {
   useEffect(() => {
     if (typeof window === 'undefined') return
 
+    const isMobile = window.matchMedia('(max-width: 767px)').matches
+
     smootherRef.current = ScrollSmoother.create({
       wrapper: '#smooth-wrapper',
       content: '#smooth-content',
-      smooth: 3,
-      effects: true,
+      smooth: isMobile ? 0 : 3,
+      effects: !isMobile,
       normalizeScroll: true,
       ignoreMobileResize: true,
     })

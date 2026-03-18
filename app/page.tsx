@@ -25,12 +25,14 @@ export default function Home() {
   useEffect(() => {
     if (typeof window === 'undefined') return
 
+    const isMobile = window.matchMedia('(max-width: 767px)').matches
+
     // Create ScrollSmoother FIRST, before any ScrollTriggers
     smootherRef.current = ScrollSmoother.create({
       wrapper: '#smooth-wrapper',
       content: '#smooth-content',
-      smooth: 1.2,
-      effects: true,
+      smooth: isMobile ? 0 : 1.2,
+      effects: !isMobile,
       normalizeScroll: true,
       ignoreMobileResize: true,
     })

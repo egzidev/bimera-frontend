@@ -5,13 +5,8 @@ import Image from 'next/image'
 import { usePathname } from 'next/navigation'
 import { motion } from 'framer-motion'
 import { gsap } from 'gsap'
-
-const navLinks = [
-    { href: '#services', label: 'Services' },
-    { href: '/projects', label: 'Projects' },
-    { href: '/about', label: 'About' },
-    { href: '#contact', label: 'Contact' },
-] as const
+import LanguageSwitcher from '@/components/i18n/LanguageSwitcher'
+import { useT } from '@/components/i18n/useT'
 
 // Section ids to observe; #portfolio (mobile) counts as #work
 const SECTION_IDS = ['services', 'work', 'about', 'contact'] as const
@@ -19,6 +14,7 @@ const SECTION_IDS = ['services', 'work', 'about', 'contact'] as const
 export default function Header() {
     const pathname = usePathname()
     const isAboutPage = pathname === '/about' || pathname?.startsWith('/about/')
+    const t = useT()
     const [isMenuOpen, setIsMenuOpen] = useState(false)
     const [isScrolled, setIsScrolled] = useState(false)
     const [hoveredLink, setHoveredLink] = useState<string | null>(null)
@@ -26,6 +22,13 @@ export default function Header() {
     const expandedMenuRef = useRef<HTMLDivElement>(null)
     const menuLinksRef = useRef<HTMLAnchorElement[]>([])
     const tlRef = useRef<gsap.core.Timeline | null>(null)
+
+    const navLinks = [
+        { href: '#services', label: t('menu.services') },
+        { href: '/projects', label: t('menu.projects') },
+        { href: '/about', label: t('menu.about') },
+        { href: '#contact', label: t('menu.contact') },
+    ] as const
 
     useEffect(() => {
         const handleScroll = () => {
@@ -167,6 +170,9 @@ export default function Header() {
                                 </a>
                             )
                         })}
+                        <div className="ml-3 hidden lg:block">
+                            <LanguageSwitcher />
+                        </div>
                     </motion.div>
 
                     {/* Mobile menu button — same delay as nav */}
@@ -234,6 +240,9 @@ export default function Header() {
                                 )
                             })}
                         </nav>
+                        <div className="mt-10">
+                            <LanguageSwitcher />
+                        </div>
                     </div>
                 </div>
             </nav>

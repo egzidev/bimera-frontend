@@ -2,8 +2,10 @@
 
 import Image from 'next/image'
 import SectionReveal from './SectionReveal'
+import { useT } from '@/components/i18n/useT'
 
 export default function Mission() {
+  const t = useT()
   return (
     <section id="mission" className="py-12 sm:py-16 lg:py-20 bg-white overflow-hidden">
       <div className="max-w-container-wide mx-auto px-4 sm:px-6 lg:px-8">
@@ -12,18 +14,18 @@ export default function Mission() {
           <div className="space-y-6 order-1 lg:order-1">
             <SectionReveal>
               <span className="text-sm font-semibold text-blue-600 uppercase tracking-wider">
-                Purpose
+                {t('aboutPage.mission.smallLabel')}
               </span>
               <h2 className="text-3xl sm:text-4xl font-medium text-gray-900 mt-2 mb-6">
-                Our Mission
+                {t('aboutPage.mission.title')}
               </h2>
               <p className="text-gray-600 text-base sm:text-lg leading-relaxed">
-                Our mission is to grow into a multidisciplinary engineering brand that actively contributes to design, construction, manufacturing, and innovation within the construction industry. We aim to become a trusted partner within the European market while promoting responsible and transparent outsourcing models.
+                {t('aboutPage.mission.paragraph1')}
               </p>
             </SectionReveal>
             <SectionReveal delay={0.1}>
               <p className="text-gray-600 text-base sm:text-lg leading-relaxed">
-                By combining technical excellence with efficient cross-border collaboration, we strive to support economic development in countries such as Kosovo that aspire to closer integration with the European Union. Through our work, we seek to create long-term value for our clients, our partners, and the communities we are part of.
+                {t('aboutPage.mission.paragraph2')}
               </p>
             </SectionReveal>
           </div>

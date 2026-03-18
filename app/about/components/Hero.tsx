@@ -3,10 +3,12 @@
 import { useEffect, useState, useRef } from 'react'
 import Image from 'next/image'
 import { motion } from 'framer-motion'
+import { useT } from '@/components/i18n/useT'
 
 export default function Hero() {
   const [isVisible, setIsVisible] = useState(false)
   const heroRef = useRef<HTMLDivElement>(null)
+  const t = useT()
 
   useEffect(() => {
     const handleScroll = () => {
@@ -52,7 +54,7 @@ export default function Hero() {
                     isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 -translate-y-2'
                   }`}
                 >
-                  About Us
+                  {t('aboutPage.hero.smallLabel')}
                 </span>
                 <h1
                   className={`text-4xl sm:text-5xl lg:text-6xl font-light text-gray-900 leading-tight tracking-tight mb-6 transition-all duration-700 ${
@@ -60,7 +62,7 @@ export default function Hero() {
                   }`}
                   style={{ transitionDelay: '100ms' }}
                 >
-                  Driven by ambition
+                  {t('aboutPage.hero.title')}
                 </h1>
                 <p
                   className={`text-lg sm:text-xl text-gray-600 leading-relaxed transition-all duration-700 ${
@@ -68,7 +70,7 @@ export default function Hero() {
                   }`}
                   style={{ transitionDelay: '200ms' }}
                 >
-                  We are a structural engineering consultancy headquartered in Sweden, with operation offices in Kosovo.
+                  {t('aboutPage.hero.description')}
                 </p>
               </motion.div>
             </div>
