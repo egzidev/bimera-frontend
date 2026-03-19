@@ -21,6 +21,8 @@ export default function LatestWork() {
   const [expandedIndex, setExpandedIndex] = useState<number>(0)
   const [isMobile, setIsMobile] = useState(false)
   const [activeCardIndex, setActiveCardIndex] = useState(0)
+  // Only show a limited number of projects in the "Our latest work" section.
+  const latestProjects = projects.slice(0, 5)
 
   // Create a scroll progress - use ref as fallback to avoid hydration error
   const { scrollYProgress } = useScroll({
@@ -99,8 +101,9 @@ export default function LatestWork() {
           onUpdate: (self) => {
             // Calculate active card based on scroll progress
             const progress = self.progress
-            const cardIndex = Math.floor(progress * (projects.length - 1))
-            const clampedIndex = Math.max(0, Math.min(cardIndex, projects.length - 1))
+            const total = latestProjects.length
+            const cardIndex = total <= 1 ? 0 : Math.floor(progress * (total - 1))
+            const clampedIndex = total <= 1 ? 0 : Math.max(0, Math.min(cardIndex, total - 1))
             setActiveCardIndex(clampedIndex)
             setExpandedIndex(clampedIndex)
           },
@@ -220,7 +223,7 @@ export default function LatestWork() {
         smoother.refresh()
       }
     }
-  }, [isMobile, projects.length])
+  }, [isMobile, latestProjects.length])
 
   const containerVariants = {
     hidden: { opacity: 0 },
@@ -297,7 +300,7 @@ export default function LatestWork() {
               // Ensure scrollWidth reflects the full horizontal content width.
               style={{ width: 'max-content' }}
             >
-              {projects.map((project, index) => (
+              {latestProjects.map((project, index) => (
                 <div
                   key={project.id}
                   className="project-wrap relative rounded-2xl overflow-hidden"
@@ -455,7 +458,7 @@ export default function LatestWork() {
               width: '100%',
             }}
           >
-            {projects.map((project, index) => {
+            {latestProjects.map((project, index) => {
               const isExpanded = expandedIndex === index
 
               return (
@@ -586,9 +589,9 @@ export default function LatestWork() {
                             transition={{ duration: 0.3 }}
                           >
                             <Link
-                              href={`/projects/${projects[expandedIndex].id}`}
+                              href={`/projects/${latestProjects[expandedIndex].id}`}
                               className="w-12 h-12 rounded-full flex items-center justify-center shadow-xl backdrop-blur-md bg-white/20 border border-white/30 hover:bg-white/30 transition-colors pointer-events-auto"
-                              aria-label={`View ${projects[expandedIndex].title}`}
+                              aria-label={`View ${latestProjects[expandedIndex].title}`}
                               onClick={(e) => e.stopPropagation()}
                             >
                               <svg

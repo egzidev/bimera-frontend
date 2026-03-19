@@ -39,10 +39,10 @@ export default function Hero() {
         />
       </div>
 
-      {/* Text overlay: absolute, left side, white card at bottom with rounded top */}
-      <div className="absolute left-0 right-0 top-0 bottom-0 flex items-end px-4 sm:px-6 lg:px-8 pb-0">
-        <div className="max-w-container mx-auto w-full">
-          <div className="absolute left-4 sm:left-6 lg:left-8 bottom-0 right-4 sm:right-6 lg:right-8 flex justify-start">
+      {/* Text overlay: absolute, aligned to the same container/padding pattern as other sections */}
+      <div className="absolute left-0 right-0 top-0 bottom-0 flex items-end pb-0">
+        <div className="relative max-w-container-wide mx-auto w-full px-4 sm:px-6 lg:px-8">
+          <div className="absolute left-0 right-0 bottom-0 flex justify-start">
             <div className="bg-white rounded-t-[4rem] lg:rounded-t-[5rem] px-6 py-14 sm:px-8 sm:py-16 lg:px-12 lg:py-20 max-w-xl min-h-[320px] sm:min-h-[360px] lg:min-h-[400px] shadow-lg">
               <motion.div
                 initial={{ opacity: 0, y: 40 }}

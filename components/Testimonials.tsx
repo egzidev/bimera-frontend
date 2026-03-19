@@ -91,7 +91,7 @@ export default function Testimonials() {
   return (
     <section ref={sectionRef} className="pb-16 pt-8 sm:pb-20 sm:pt-10 md:pb-32 md:pt-20 bg-white overflow-hidden">
       <div className="max-w-container-wide mx-auto px-4 sm:px-6 lg:px-8">
-        <div className="grid lg:grid-cols-2 gap-20 sm:gap-12 lg:gap-20 items-center">
+        <div className="grid lg:grid-cols-2 gap-10 sm:gap-12 lg:gap-20 items-start lg:items-center">
           {/* Left: Question */}
           <motion.div
             ref={questionRef}
@@ -101,25 +101,70 @@ export default function Testimonials() {
               opacity: questionOpacity,
             }}
           >
-            <motion.h2
-              className="text-xl sm:text-2xl md:text-3xl lg:text-4xl font-medium text-gray-900 leading-tight"
-              initial={{ opacity: 0, x: -30 }}
-              animate={isInView ? { opacity: 1, x: 0 } : { opacity: 0, x: -30 }}
-              transition={{ duration: 0.8, ease: [0.22, 1, 0.36, 1] }}
-            >
-              {(() => {
-                const q = t('homepage.testimonials.question')
-                const parts = q.split('\n')
-                if (parts.length === 1) return parts[0]
-                return (
-                  <>
-                    {parts[0]}
-                    <br />
-                    {parts.slice(1).join('\n')}
-                  </>
-                )
-              })()}
-            </motion.h2>
+            <div className="flex items-start justify-between gap-4">
+              <motion.h2
+                className="text-2xl sm:text-2xl md:text-3xl lg:text-4xl font-medium text-gray-900 leading-tight"
+                initial={{ opacity: 0, x: -30 }}
+                animate={isInView ? { opacity: 1, x: 0 } : { opacity: 0, x: -30 }}
+                transition={{ duration: 0.8, ease: [0.22, 1, 0.36, 1] }}
+              >
+                {(() => {
+                  const q = t('homepage.testimonials.question')
+                  const parts = q.split('\n')
+                  if (parts.length === 1) return parts[0]
+                  return (
+                    <>
+                      {parts[0]}
+                      <br />
+                      {parts.slice(1).join('\n')}
+                    </>
+                  )
+                })()}
+              </motion.h2>
+
+              {testimonials.length > 1 && (
+                <div className="flex gap-2 mt-1 md:hidden">
+                  <button
+                    type="button"
+                    onClick={goPrev}
+                    aria-label="Previous testimonial"
+                    className="w-10 h-10 rounded-full bg-white border border-gray-200/80 text-gray-700 shadow-lg hover:bg-gray-50 active:scale-[0.98] flex items-center justify-center focus:outline-none focus:ring-2 focus:ring-blue-200"
+                  >
+                    <svg
+                      viewBox="0 0 24 24"
+                      fill="none"
+                      stroke="currentColor"
+                      strokeWidth="2"
+                      strokeLinecap="round"
+                      strokeLinejoin="round"
+                      className="w-5 h-5"
+                      aria-hidden="true"
+                    >
+                      <path d="M15 18l-6-6 6-6" />
+                    </svg>
+                  </button>
+                  <button
+                    type="button"
+                    onClick={goNext}
+                    aria-label="Next testimonial"
+                    className="w-10 h-10 rounded-full bg-white border border-gray-200/80 text-gray-700 shadow-lg hover:bg-gray-50 active:scale-[0.98] flex items-center justify-center focus:outline-none focus:ring-2 focus:ring-blue-200"
+                  >
+                    <svg
+                      viewBox="0 0 24 24"
+                      fill="none"
+                      stroke="currentColor"
+                      strokeWidth="2"
+                      strokeLinecap="round"
+                      strokeLinejoin="round"
+                      className="w-5 h-5"
+                      aria-hidden="true"
+                    >
+                      <path d="M9 18l6-6-6-6" />
+                    </svg>
+                  </button>
+                </div>
+              )}
+            </div>
           </motion.div>
 
           {/* Right: Testimonial Card */}
@@ -258,7 +303,7 @@ export default function Testimonials() {
                     type="button"
                     onClick={goPrev}
                     aria-label="Previous testimonial"
-                    className="absolute left-0 top-1/2 -translate-y-1/2 -translate-x-1/2 z-30 w-10 h-10 sm:w-11 sm:h-11 rounded-full bg-white border border-gray-200/80 text-gray-700 shadow-lg hover:bg-gray-50 active:scale-[0.98] flex items-center justify-center focus:outline-none focus:ring-2 focus:ring-blue-200"
+                    className="hidden md:flex absolute left-0 top-1/2 -translate-y-1/2 -translate-x-1/2 z-30 w-10 h-10 sm:w-11 sm:h-11 rounded-full bg-white border border-gray-200/80 text-gray-700 shadow-lg hover:bg-gray-50 active:scale-[0.98] items-center justify-center focus:outline-none focus:ring-2 focus:ring-blue-200"
                   >
                     <svg
                       viewBox="0 0 24 24"
@@ -277,7 +322,7 @@ export default function Testimonials() {
                     type="button"
                     onClick={goNext}
                     aria-label="Next testimonial"
-                    className="absolute right-0 top-1/2 -translate-y-1/2 translate-x-1/2 z-30 w-10 h-10 sm:w-11 sm:h-11 rounded-full bg-white border border-gray-200/80 text-gray-700 shadow-lg hover:bg-gray-50 active:scale-[0.98] flex items-center justify-center focus:outline-none focus:ring-2 focus:ring-blue-200"
+                    className="hidden md:flex absolute right-0 top-1/2 -translate-y-1/2 translate-x-1/2 z-30 w-10 h-10 sm:w-11 sm:h-11 rounded-full bg-white border border-gray-200/80 text-gray-700 shadow-lg hover:bg-gray-50 active:scale-[0.98] items-center justify-center focus:outline-none focus:ring-2 focus:ring-blue-200"
                   >
                     <svg
                       viewBox="0 0 24 24"
