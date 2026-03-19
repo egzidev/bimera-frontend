@@ -91,8 +91,10 @@ export default function LatestWork() {
       scrollTriggerInstance = gsap.to(pinWrap, {
         scrollTrigger: {
           scrub: true,
-          trigger: wrapper,
-          pin: wrapper,
+          // Pin the whole section (like the About/Team implementation) to avoid
+          // nested pinning issues on some mobile browsers when an ancestor uses overflow-hidden.
+          trigger: sectionRef.current,
+          pin: true,
           pinSpacing: true,
           start: 'top top',
           // Drive horizontal distance using the computed max overflow.
