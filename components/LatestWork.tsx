@@ -16,6 +16,7 @@ import { projects } from '@/lib/projects'
 export default function LatestWork() {
   const ref = useRef(null)
   const sectionRef = useRef<HTMLDivElement>(null)
+  const viewportRef = useRef<HTMLDivElement>(null)
   const latestWorkTitleRef = useRef<HTMLDivElement>(null)
   const isInView = useInView(ref, { once: true, amount: 0.2 })
   const [expandedIndex, setExpandedIndex] = useState<number>(0)
@@ -48,182 +49,81 @@ export default function LatestWork() {
   }, [])
 
   const galleryStripRef = useRef<HTMLDivElement>(null)
+  const tlRef = useRef<gsap.core.Timeline | null>(null)
+  const scrollTriggerRef = useRef<ScrollTrigger | null>(null)
 
   useEffect(() => {
     if (!isMobile) {
+      tlRef.current?.kill()
+      tlRef.current = null
+      scrollTriggerRef.current?.kill()
+      scrollTriggerRef.current = null
       setActiveCardIndex(0)
       setExpandedIndex(0)
       return
     }
 
-    if (!sectionRef.current || !galleryStripRef.current) return
+    const section = sectionRef.current
+    const viewport = viewportRef.current
+    const inner = galleryStripRef.current
+    if (!section || !viewport || !inner) return
 
-    const pinWrap = galleryStripRef.current
-    const wrapper = sectionRef.current.querySelector('.horiz-gallery-wrapper') as HTMLElement
-    if (!wrapper) return
+    const setup = () => {
+      // Clear previous instance (if any).
+      tlRef.current?.kill()
+      tlRef.current = null
+      scrollTriggerRef.current?.kill()
+      scrollTriggerRef.current = null
 
-    let pinWrapWidth: number
-    let horizontalScrollLength: number
-    let scrollTriggerInstance: gsap.core.Tween | null = null
-    let isInitialized = false
+      const maxScroll = inner.scrollWidth - viewport.clientWidth
+      if (maxScroll <= 0) return
 
-    function refresh() {
-      pinWrapWidth = pinWrap.scrollWidth
-      // Use the actual viewport width of the wrapper (not window.innerWidth),
-      // since this component has internal padding/centering that can differ.
-      horizontalScrollLength = pinWrapWidth - wrapper.clientWidth
-      
-      // Update ScrollTrigger end value if it exists
-      if (scrollTriggerInstance?.scrollTrigger) {
-        scrollTriggerInstance.scrollTrigger.vars.end = `+=${Math.max(horizontalScrollLength, 0)}`
-        // Keep the tween's horizontal distance in sync with refreshed measurements.
-        // (In some cases GSAP may snapshot initial values; invalidate forces re-evaluation.)
-        ;(scrollTriggerInstance.vars as any).x = () => -horizontalScrollLength
-        scrollTriggerInstance.invalidate()
-      }
-    }
+      gsap.set(inner, { x: 0 })
 
-    function initScrollTrigger() {
-      if (isInitialized) return
-      isInitialized = true
-
-      // Pinning and horizontal scrolling
-      scrollTriggerInstance = gsap.to(pinWrap, {
+      tlRef.current = gsap.timeline({
         scrollTrigger: {
-          scrub: true,
-          // Pin the whole section (like the About/Team implementation) to avoid
-          // nested pinning issues on some mobile browsers when an ancestor uses overflow-hidden.
-          trigger: sectionRef.current,
+          trigger: section,
+          start: 'top top',
+          end: '+=200%',
           pin: true,
           pinSpacing: true,
-          start: 'top top',
-          // Drive horizontal distance using the computed max overflow.
-          end: () => `+=${Math.max(horizontalScrollLength, 0)}`,
+          scrub: 1,
           invalidateOnRefresh: true,
           onUpdate: (self) => {
-            // Calculate active card based on scroll progress
             const progress = self.progress
             const total = latestProjects.length
             const cardIndex = total <= 1 ? 0 : Math.floor(progress * (total - 1))
-            const clampedIndex = total <= 1 ? 0 : Math.max(0, Math.min(cardIndex, total - 1))
+            const clampedIndex =
+              total <= 1 ? 0 : Math.max(0, Math.min(cardIndex, total - 1))
             setActiveCardIndex(clampedIndex)
             setExpandedIndex(clampedIndex)
           },
         },
-        x: () => -horizontalScrollLength,
-        ease: 'none',
       })
-    }
 
-    // Wait for ScrollSmoother to be ready (if it exists) and parent animations
-    const waitForScrollSmoother = () => {
-      // Check if ScrollSmoother exists and is ready
-      const checkSmoother = () => {
-        const smoother = (window as any).ScrollSmoother?.get()
-        return smoother && smoother.isActive()
-      }
-
-      const tryInit = () => {
-        // Wait for images to load before calculating width
-        const images = pinWrap.querySelectorAll('img')
-        let imagesLoaded = 0
-        const totalImages = images.length
-
-        const checkImagesLoaded = () => {
-          imagesLoaded++
-          if (imagesLoaded >= totalImages || totalImages === 0) {
-            refresh()
-            // Small delay to ensure DOM is fully updated
-            requestAnimationFrame(() => {
-              initScrollTrigger()
-              ScrollTrigger.refresh()
-              // Refresh ScrollSmoother if it exists
-              const smoother = (window as any).ScrollSmoother?.get()
-              if (smoother) {
-                smoother.refresh()
-              }
-            })
-          }
-        }
-
-        if (totalImages > 0) {
-          images.forEach((img) => {
-            if (img.complete) {
-              checkImagesLoaded()
-            } else {
-              img.addEventListener('load', checkImagesLoaded, { once: true })
-              img.addEventListener('error', checkImagesLoaded, { once: true })
-            }
-          })
-        } else {
-          refresh()
-          requestAnimationFrame(() => {
-            initScrollTrigger()
-            ScrollTrigger.refresh()
-            // Refresh ScrollSmoother if it exists
-            const smoother = (window as any).ScrollSmoother?.get()
-            if (smoother) {
-              smoother.refresh()
-            }
-          })
-        }
-      }
-
-      // If ScrollSmoother exists, wait for it; otherwise proceed immediately
-      if (checkSmoother()) {
-        tryInit()
-      } else {
-        // Wait a bit for ScrollSmoother to initialize, then proceed
-        const checkInterval = setInterval(() => {
-          if (checkSmoother() || !(window as any).ScrollSmoother) {
-            clearInterval(checkInterval)
-            setTimeout(tryInit, 100) // Small delay after ScrollSmoother is ready
-          }
-        }, 50)
-        
-        // Fallback timeout
-        setTimeout(() => {
-          clearInterval(checkInterval)
-          tryInit()
-        }, 1000)
-      }
-    }
-
-    waitForScrollSmoother()
-
-    // Handle window resize
-    const handleResize = () => {
-      refresh()
+      tlRef.current.to(inner, { x: -maxScroll, ease: 'none' })
+      scrollTriggerRef.current = tlRef.current.scrollTrigger ?? null
       ScrollTrigger.refresh()
-      // Refresh ScrollSmoother if it exists
-      const smoother = (window as any).ScrollSmoother?.get()
-      if (smoother) {
-        smoother.refresh()
-      }
     }
 
-    window.addEventListener('resize', handleResize)
-    ScrollTrigger.addEventListener('refreshInit', refresh)
-
-    // Set first card as active by default
+    // First card active by default
     setActiveCardIndex(0)
     setExpandedIndex(0)
+    // Small delay to ensure layout/measurements are stable (mobile browsers can
+    // settle widths slightly after initial render).
+    const setupTimeout = window.setTimeout(setup, 150)
+
+    const handleResize = () => setup()
+    window.addEventListener('resize', handleResize)
 
     return () => {
+      window.clearTimeout(setupTimeout)
       window.removeEventListener('resize', handleResize)
-      ScrollTrigger.removeEventListener('refreshInit', refresh)
-      if (scrollTriggerInstance?.scrollTrigger) {
-        scrollTriggerInstance.scrollTrigger.kill()
-      }
-      if (scrollTriggerInstance) {
-        scrollTriggerInstance.kill()
-      }
+      tlRef.current?.kill()
+      tlRef.current = null
+      scrollTriggerRef.current?.kill()
+      scrollTriggerRef.current = null
       ScrollTrigger.refresh()
-      // Refresh ScrollSmoother if it exists
-      const smoother = (window as any).ScrollSmoother?.get()
-      if (smoother) {
-        smoother.refresh()
-      }
     }
   }, [isMobile, latestProjects.length])
 
@@ -247,7 +147,7 @@ export default function LatestWork() {
   if (isMobile) {
     return (
       <>
-      <section id="work" className="block lg:hidden relative">
+      <section className="block lg:hidden relative">
        {/* Sentinel for scroll target — always in DOM to avoid hydration error */}
        <div
          ref={latestWorkTitleRef}
@@ -295,12 +195,15 @@ export default function LatestWork() {
               </svg>
             </a>
           </div>
-          <div className="horiz-gallery-wrapper flex flex-nowrap will-change-transform relative">
+          <div
+            ref={viewportRef}
+            className="horiz-gallery-wrapper flex flex-nowrap will-change-transform relative overflow-hidden"
+          >
             <div
               ref={galleryStripRef}
-              className="horiz-gallery-strip flex flex-nowrap will-change-transform relative"
+              className="horiz-gallery-strip flex flex-nowrap will-change-transform relative flex-shrink-0"
               // Ensure scrollWidth reflects the full horizontal content width.
-              style={{ width: 'max-content' }}
+              style={{ width: 'max-content', flex: '0 0 auto' }}
             >
               {latestProjects.map((project, index) => (
                 <div
