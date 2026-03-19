@@ -16,12 +16,20 @@ export default function ProjectDetailContent({ project }: Props) {
 
   const [activeGalleryIndex, setActiveGalleryIndex] = useState(0)
 
+  const heroImageSrc = hasGallery ? galleryImages[activeGalleryIndex] : project.image
+  const rightImages = hasGallery ? galleryImages : []
+
+  const [isMainImageLoading, setIsMainImageLoading] = useState(false)
+
   useEffect(() => {
     setActiveGalleryIndex(0)
   }, [project.id])
 
-  const heroImageSrc = hasGallery ? galleryImages[activeGalleryIndex] : project.image
-  const rightImages = hasGallery ? galleryImages : []
+  useEffect(() => {
+    // Only show the spinner for gallery transitions (not for the single image case).
+    if (!hasGallery) return
+    setIsMainImageLoading(true)
+  }, [heroImageSrc, hasGallery])
 
   return (
     <section className="pt-24 pb-12 sm:pb-16 lg:pb-20 bg-white overflow-hidden">
@@ -33,6 +41,18 @@ export default function ProjectDetailContent({ project }: Props) {
               <div className="flex flex-col lg:flex-row gap-4 lg:items-stretch">
                 {/* Main image */}
                 <div className="relative flex-1 min-w-0 rounded-2xl overflow-hidden bg-gray-100 h-[360px] sm:h-[460px] lg:h-[640px]">
+                  {hasGallery && isMainImageLoading ? (
+                    <div
+                      className="absolute inset-0 z-20 flex items-center justify-center bg-gray-100/50 pointer-events-none"
+                      aria-label="Loading image"
+                      aria-busy="true"
+                    >
+                      <div
+                        className="h-10 w-10 animate-spin rounded-full border-4 border-blue-600 border-t-transparent"
+                        role="status"
+                      />
+                    </div>
+                  ) : null}
                   <Link
                     href="/projects"
                     className="absolute top-4 left-4 z-10 inline-flex items-center gap-2 rounded-full bg-white/85 hover:bg-white text-gray-900 px-3 py-2 shadow-sm border border-white/60 backdrop-blur transition-colors"
@@ -50,6 +70,7 @@ export default function ProjectDetailContent({ project }: Props) {
                     className="object-cover"
                     sizes="(max-width: 1024px) 100vw, 896px"
                     priority
+                    onLoadingComplete={() => setIsMainImageLoading(false)}
                   />
                 </div>
 
