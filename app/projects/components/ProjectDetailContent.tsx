@@ -19,7 +19,7 @@ export default function ProjectDetailContent({ project }: Props) {
   const heroImageSrc = hasGallery ? galleryImages[activeGalleryIndex] : project.image
   const rightImages = hasGallery ? galleryImages : []
 
-  const [isMainImageLoading, setIsMainImageLoading] = useState(false)
+  const [isMainImageLoading, setIsMainImageLoading] = useState(hasGallery)
 
   useEffect(() => {
     setActiveGalleryIndex(0)
@@ -40,10 +40,13 @@ export default function ProjectDetailContent({ project }: Props) {
             {hasGallery ? (
               <div className="flex flex-col lg:flex-row gap-4 lg:items-stretch">
                 {/* Main image */}
-                <div className="relative flex-1 min-w-0 rounded-2xl overflow-hidden bg-gray-100 h-[360px] sm:h-[460px] lg:h-[640px]">
+                <div
+                  className="relative flex-1 min-w-0 rounded-2xl overflow-hidden bg-gray-100 h-[360px] sm:h-[460px] lg:h-[640px]"
+                  style={{ minHeight: 360 }}
+                >
                   {hasGallery && isMainImageLoading ? (
                     <div
-                      className="absolute inset-0 z-20 flex items-center justify-center bg-gray-100/50 pointer-events-none"
+                      className="absolute inset-0 z-20 flex items-center justify-center bg-gray-100/15 pointer-events-none"
                       aria-label="Loading image"
                       aria-busy="true"
                     >
@@ -64,13 +67,16 @@ export default function ProjectDetailContent({ project }: Props) {
                   </Link>
 
                   <Image
+                    key={heroImageSrc}
                     src={heroImageSrc}
                     alt={project.title}
                     fill
                     className="object-cover"
                     sizes="(max-width: 1024px) 100vw, 896px"
                     priority
-                    onLoadingComplete={() => setIsMainImageLoading(false)}
+                    loading="eager"
+                    onLoad={() => setIsMainImageLoading(false)}
+                    onError={() => setIsMainImageLoading(false)}
                   />
                 </div>
 
@@ -145,7 +151,10 @@ export default function ProjectDetailContent({ project }: Props) {
                 </div>
               </div>
             ) : (
-              <div className="relative w-full rounded-2xl overflow-hidden bg-gray-100 h-[360px] sm:h-[460px] lg:h-[640px]">
+              <div
+                className="relative w-full rounded-2xl overflow-hidden bg-gray-100 h-[360px] sm:h-[460px] lg:h-[640px]"
+                style={{ minHeight: 360 }}
+              >
                 <Image
                   src={heroImageSrc}
                   alt={project.title}

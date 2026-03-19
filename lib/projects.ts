@@ -17,7 +17,7 @@ export type Project = {
   galleryImages?: string[]
 }
 
-export const projects: Project[] = [
+const projectsRaw: Project[] = [
   {
     id: 'kv-toften',
     title: 'Kv Toften',
@@ -58,7 +58,14 @@ export const projects: Project[] = [
       { label: 'Scope', value: 'BIM model, Drawings' },
       { label: 'Status', value: 'Completed' },
     ],
-    image: '/images/render2.jpg',
+    image: '/images/projects/götene-badhus/1.jpg',
+    galleryImages: [
+      '/images/projects/götene-badhus/1.jpg',
+      '/images/projects/götene-badhus/2.jpg',
+      '/images/projects/götene-badhus/3.png',
+      '/images/projects/götene-badhus/4.png',
+      '/images/projects/götene-badhus/5.png',
+    ],
   },
   {
     id: 'kingly-windows',
@@ -102,7 +109,25 @@ export const projects: Project[] = [
       { label: 'Scope', value: 'BIM Model, Drawings' },
       { label: 'Status', value: 'Completed' },
     ],
-    image: '/images/render4.webp',
+    image: '/images/projects/soderskola-halmstad/2.png',
+    galleryImages: [
+      '/images/projects/soderskola-halmstad/2.png',
+      '/images/projects/soderskola-halmstad/3.jpg',
+      '/images/projects/soderskola-halmstad/4.jpg',
+      '/images/projects/soderskola-halmstad/5.jpg',
+      '/images/projects/soderskola-halmstad/6.jpg',
+      '/images/projects/soderskola-halmstad/7.jpg',
+      '/images/projects/soderskola-halmstad/8.jpg',
+      '/images/projects/soderskola-halmstad/9.jpg',
+      '/images/projects/soderskola-halmstad/10.jpg',
+      '/images/projects/soderskola-halmstad/11.jpg',
+      '/images/projects/soderskola-halmstad/12.jpg',
+      '/images/projects/soderskola-halmstad/13.jpg',
+      '/images/projects/soderskola-halmstad/14.jpg',
+      '/images/projects/soderskola-halmstad/15.jpg',
+      '/images/projects/soderskola-halmstad/16.jpg',
+      '/images/projects/soderskola-halmstad/17.jpg',
+    ],
   },
   {
     id: 'runristaren-3',
@@ -118,7 +143,10 @@ export const projects: Project[] = [
       { label: 'Scope', value: 'Calculations, BIM Model, Drawings' },
       { label: 'Status', value: 'Completed' },
     ],
-    image: '/images/render1.jpg',
+    image: '/images/projects/runristaren-3/1.png',
+    galleryImages: [
+      '/images/projects/runristaren-3/1.png',
+    ],
   },
   {
     id: 'nkt',
@@ -134,7 +162,8 @@ export const projects: Project[] = [
       { label: 'Scope', value: 'BIM Model, Drawings' },
       { label: 'Status', value: 'Completed' },
     ],
-    image: '/images/render2.jpg',
+    image: '/images/projects/nkt/1.jpg',
+    galleryImages: ['/images/projects/nkt/1.jpg'],
   },
   {
     id: 'sodra-ang',
@@ -150,7 +179,14 @@ export const projects: Project[] = [
       { label: 'Scope', value: 'BIM model, Drawings' },
       { label: 'Status', value: 'Completed' },
     ],
-    image: '/images/render3.jpg',
+    image: '/images/projects/sodra-ang/1.jpg',
+    galleryImages: [
+      '/images/projects/sodra-ang/1.jpg',
+      '/images/projects/sodra-ang/2.png',
+      '/images/projects/sodra-ang/3.png',
+      '/images/projects/sodra-ang/4.png',
+      '/images/projects/sodra-ang/5.png',
+    ],
   },
   {
     id: 'reningsverk-gavle',
@@ -166,7 +202,10 @@ export const projects: Project[] = [
       { label: 'Scope', value: 'BIM model, Drawings' },
       { label: 'Status', value: 'Ongoing' },
     ],
-    image: '/images/render1.jpg',
+    image: '/images/projects/gavle/1.webp',
+    galleryImages: [
+      '/images/projects/gavle/1.webp',
+    ],
   },
   {
     id: 'brf-granit',
@@ -182,9 +221,40 @@ export const projects: Project[] = [
       { label: 'Scope', value: 'Calculations, BIM Model, Drawings' },
       { label: 'Status', value: 'Ongoing' },
     ],
-    image: '/images/render2.jpg',
+    image: '/images/projects/brf-granit/1.jpg',
+    galleryImages: [
+      '/images/projects/brf-granit/1.jpg',
+      '/images/projects/brf-granit/2.jpg',
+      '/images/projects/brf-granit/3.png',
+      '/images/projects/brf-granit/4.png',
+      '/images/projects/brf-granit/5.png',
+      '/images/projects/brf-granit/6.png',
+      '/images/projects/brf-granit/7.png',
+    ],
   },
 ]
+
+const projectsOrder: Record<string, number> = {
+  'kv-toften': 1,
+  'kingly-windows': 2,
+  'soderskola': 3,
+  'nkt': 4,
+  'runristaren-3': 5,
+  'gotene-badhus': 6,
+  'sodra-ang': 7,
+  'reningsverk-gavle': 8,
+  'brf-granit': 9,
+}
+
+export const projects: Project[] = projectsRaw
+  .map((p, idx) => ({ p, idx }))
+  .sort((a, b) => {
+    const orderA = projectsOrder[a.p.id] ?? Number.MAX_SAFE_INTEGER
+    const orderB = projectsOrder[b.p.id] ?? Number.MAX_SAFE_INTEGER
+    if (orderA !== orderB) return orderA - orderB
+    return a.idx - b.idx
+  })
+  .map(({ p }) => p)
 
 export function getProjectById(id: string): Project | undefined {
   return projects.find((p) => p.id === id)

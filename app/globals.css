@@ -16,7 +16,7 @@ body {
 /* ScrollSmoother wrapper and content */
 #smooth-wrapper {
   overflow: visible;
-  position: static;
+  position: relative;
   height: auto;
   width: 100%;
 }

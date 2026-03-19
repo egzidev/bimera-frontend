@@ -134,6 +134,7 @@ export default function Header() {
                                 alt="Bimera Logo"
                                 width={140}
                                 height={32}
+                                priority
                                 className="h-6 md:h-7 w-auto transition-transform duration-300 group-hover:scale-110"
                             />
                         </a>
